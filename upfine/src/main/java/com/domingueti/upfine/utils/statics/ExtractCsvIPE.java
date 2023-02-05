@@ -1,6 +1,7 @@
-package com.domingueti.upfine.utils;
+package com.domingueti.upfine.utils.statics;
 
 import java.io.*;
+import java.net.SocketException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,9 +13,9 @@ import java.util.zip.ZipInputStream;
 
 import static java.nio.file.Files.deleteIfExists;
 
-public class ExtractCsvRelevantFacts {
+public class ExtractCsvIPE {
 
-    public List<String[]> execute() throws IOException {
+    public static List<String[]> execute() throws IOException {
 
         String zipFileUrl = "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/IPE/DADOS/ipe_cia_aberta_2023.zip";
         String zipFilePath = "ipe_cia_aberta_2023.zip";
@@ -51,10 +52,13 @@ public class ExtractCsvRelevantFacts {
         return rows;
     }
 
-    private static void downloadFile(String url, String dest) throws IOException {
+    public static void downloadFile(String url, String dest) throws IOException {
         URL website = new URL(url);
         try (InputStream in = website.openStream()) {
             Files.copy(in, Paths.get(dest));
+        }
+        catch (SocketException e) {
+            throw new SocketException(e.getMessage());
         }
     }
 
