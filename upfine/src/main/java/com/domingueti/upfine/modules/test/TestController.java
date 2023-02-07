@@ -26,8 +26,8 @@ public class TestController {
     private RestTemplate restTemplate;
 
     @GetMapping
-    public ResponseEntity<String> execute() throws IOException {
-        String pdfUrl = "https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&descTipo=IPE&CodigoInstituicao=1&numProtocolo=1050720&numSequencia=575450&numVersao=1";
+    public ResponseEntity<String> execute() {
+        String pdfUrl = "https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&descTipo=IPE&CodigoInstituicao=1&numProtocolo=1050868&numSequencia=575598&numVersao=1";
         String saveLocation = "src/main/resources/pdf/output.pdf";
         String pdfOutput = "";
 
