@@ -1,5 +1,7 @@
 package com.domingueti.upfine.configs;
 
+import com.domingueti.upfine.components.StockData.implementations.GetStockDataImpl;
+import com.domingueti.upfine.components.StockData.interfaces.GetStockData;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -24,6 +26,11 @@ import static org.apache.http.ssl.SSLContexts.custom;
 
 @Configuration
 public class WebConfiguration {
+
+    @Bean
+    public GetStockData getStockData() {
+        return new GetStockDataImpl();
+    }
 
     @Bean
     public RestTemplate restTemplate() {
