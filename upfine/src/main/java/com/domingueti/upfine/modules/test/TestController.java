@@ -1,5 +1,7 @@
 package com.domingueti.upfine.modules.test;
 
+import com.domingueti.upfine.components.StockData.dtos.StockIndicatorsDTO;
+import com.domingueti.upfine.components.StockData.interfaces.GetStockData;
 import com.domingueti.upfine.utils.beans.DownloadFile;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -25,6 +27,9 @@ public class TestController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private GetStockData getStockData;
+
     @GetMapping
     public ResponseEntity<String> execute() {
         String pdfUrl = "https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&descTipo=IPE&CodigoInstituicao=1&numProtocolo=1050868&numSequencia=575598&numVersao=1";
@@ -42,6 +47,9 @@ public class TestController {
             PDFTextStripper stripper = new PDFTextStripper();
             pdfOutput = stripper.getText(document);
             System.out.println(pdfOutput);
+
+            StockIndicatorsDTO dto = getStockData.execute("UNIP6");
+            System.out.println(dto.toString());
 
         } catch (IOException e) {
             e.getCause();
