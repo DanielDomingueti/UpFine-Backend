@@ -25,8 +25,6 @@ public class Corporation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Getter @Setter Long id;
 
-    private @Getter @Setter Long industryId;
-
     private @Getter @Setter String cnpj;
 
     private @Getter @Setter String name;
@@ -38,11 +36,6 @@ public class Corporation {
     private @Getter Timestamp updatedAt;
 
     private @Getter @Setter Timestamp deletedAt;
-
-    @ToString.Exclude
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "industryId", insertable = false, updatable = false)
-    private @Getter Industry industry;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "corporation", cascade = CascadeType.ALL)

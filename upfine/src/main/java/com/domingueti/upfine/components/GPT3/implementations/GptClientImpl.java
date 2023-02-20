@@ -2,8 +2,8 @@ package com.domingueti.upfine.components.GPT3.implementations;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
+import lombok.NoArgsConstructor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,18 +11,18 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
+@Component
+@NoArgsConstructor
 public class GptClientImpl {
 
-    private final OkHttpClient client;
-    private final String endpoint;
-    private final String apiKey;
+    private final OkHttpClient client = new OkHttpClient();
 
-    public GptClientImpl(String apiKey) {
-        this.client = new OkHttpClient();
-        this.endpoint = "https://api.openai.com";
-        this.apiKey = apiKey;
-    }
+    private final String endpoint = "https://api.openai.com";
+
+//    @Value("%{gpt-api-key}")
+    private final String apiKey = "apiKey";
 
     public String summarizeText(String text, int maxSummaryLength) throws IOException {
         String prompt = "Please summarize the following text:\n\n" + text + "\n\nSummary:";

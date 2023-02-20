@@ -15,7 +15,7 @@ public class DownloadFile {
         this.restTemplate = builder.build();
     }
 
-    public byte[] executeBytes(String url) {
+    public byte[] execute(String url) {
 
         return restTemplate.getForObject(url, byte[].class);
 

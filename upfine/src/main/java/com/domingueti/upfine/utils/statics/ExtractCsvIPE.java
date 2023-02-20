@@ -33,8 +33,7 @@ public class ExtractCsvIPE {
         String cvsSplitBy = ";";
         List<String[]> rows = new ArrayList<>();
 
-        try (
-                BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             while ((line = br.readLine()) != null) {
                 String[] row = line.split(cvsSplitBy);
                 if (row[4].equals("Fato Relevante")) {

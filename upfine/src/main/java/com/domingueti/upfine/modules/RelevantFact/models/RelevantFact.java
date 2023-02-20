@@ -25,9 +25,7 @@ public class RelevantFact {
 
     private @Getter @Setter Long ipeId;
 
-    private @Getter @Setter String rawText;
-
-    private @Getter @Setter String optimizedText;
+    private @Getter @Setter String summarizedText;
 
     @CreationTimestamp
     private @Getter Timestamp createdAt;
