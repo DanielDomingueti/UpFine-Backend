@@ -6,9 +6,8 @@ import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
 import com.domingueti.upfine.modules.RelevantFact.models.RelevantFact;
 import com.domingueti.upfine.modules.RelevantFact.repositories.RelevantFactRepository;
-import com.domingueti.upfine.utils.beans.DownloadFileToByteArray;
+import com.domingueti.upfine.utils.components.ExtractCsvLines;
 import com.domingueti.upfine.utils.statics.ConvertToRawCnpj;
-import com.domingueti.upfine.utils.statics.ExtractCsvIPE;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,9 +23,9 @@ import java.util.Optional;
 public class IpeCron {
     //verifies for new IPEs from the CSV and save the final summarized text
 
-    private DownloadFileToByteArray downloadFileToByteArray;
-
 //    private GptClient gptClient;
+
+    private ExtractCsvLines extractCsvLines;
 
     private IpeRepository ipeRepository;
 
@@ -36,24 +35,23 @@ public class IpeCron {
 
     @Transactional
     public void execute() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         try {
-            Optional<Ipe> latestIpeOptional = ipeRepository.findTop1ByOrderByReferenceDateDesc();
+            final Optional<Ipe> latestIpeOptional = ipeRepository.findTop1ByOrderByReferenceDateDesc();
 
-            List<String[]> listOfDownloadedIpeArray = ExtractCsvIPE.execute();
+            final List<String[]> csvLinesIpe = extractCsvLines.execute();
 
-            for (String[] ipeArray : listOfDownloadedIpeArray) {
+            for (String[] ipeArray : csvLinesIpe) {
 
-                LocalDate ipeReferenceDate = LocalDate.parse(ipeArray[8], dateTimeFormatter);
+                final LocalDate ipeReferenceDate = LocalDate.parse(ipeArray[8], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 //                if (latestIpeOptional.isPresent() && ipeReferenceDate.isBefore(latestIpeOptional.get().getReferenceDate())) {
                 if (!ipeReferenceDate.isAfter(LocalDate.of(2023, 02, 15))) {
                     continue;
                 }
 
-                Ipe ipe = createIpeObject(ipeArray, ipeReferenceDate);
+                final Ipe ipe = createAndSaveIpe(ipeArray, ipeReferenceDate);
 
-                createRelevantFact(ipe);
+                createAndSaveRelevantFact(ipe);
 
             }
 
@@ -62,30 +60,30 @@ public class IpeCron {
         }
     }
 
-    private Ipe createIpeObject(String[] ipeArray, LocalDate ipeReferenceDate) {
-        Ipe ipe = new Ipe();
-        String ipeCorporationCnpj = ConvertToRawCnpj.execute(ipeArray[0]);
-        String ipeCorporationName = ipeArray[1];
-        String ipeSubject = ipeArray[7];
-        String ipeLink = ipeArray[12];
-        Long ipeCorporationId = defineCorporationId(ipeCorporationCnpj, ipeCorporationName);
+    private Ipe createAndSaveIpe(String[] ipeArray, LocalDate ipeReferenceDate) {
+        final String ipeCorporationCnpj = ConvertToRawCnpj.execute(ipeArray[0]);
+        final String ipeCorporationName = ipeArray[1];
+        final String ipeSubject = ipeArray[7];
+        final String ipeLink = ipeArray[12];
+        final Long ipeCorporationId = defineCorporationId(ipeCorporationCnpj, ipeCorporationName);
 
+        Ipe ipe = new Ipe();
         ipe.setSubject(ipeSubject);
         ipe.setLink(ipeLink);
         ipe.setCorporationId(ipeCorporationId);
         ipe.setReferenceDate(ipeReferenceDate);
-
         ipe = ipeRepository.saveAndFlush(ipe);
+
         return ipe;
     }
 
     private Long defineCorporationId(String ipeCorporationCnpj, String ipeCorporationName) {
-        Optional<Corporation> corporationOptional = corporationRepository.findByCnpjAndName(ipeCorporationCnpj, ipeCorporationName);
+        final Optional<Corporation> corporationOptional = corporationRepository.findByCnpjAndName(ipeCorporationCnpj, ipeCorporationName);
         if (corporationOptional.isPresent()) {
             return corporationOptional.get().getId();
         }
 
-        Corporation newCorporation = createNewCorporation(ipeCorporationCnpj, ipeCorporationName);
+        final Corporation newCorporation = createNewCorporation(ipeCorporationCnpj, ipeCorporationName);
         return newCorporation.getId();
     }
 
@@ -94,15 +92,15 @@ public class IpeCron {
         newCorporation.setCnpj(ConvertToRawCnpj.execute(ipeCorporationCnpj));
         newCorporation.setName(ipeCorporationName);
         newCorporation = corporationRepository.saveAndFlush(newCorporation);
+
         return newCorporation;
     }
 
-    private void createRelevantFact(Ipe newIpe) throws InterruptedException {
+    private void createAndSaveRelevantFact(Ipe newIpe) throws InterruptedException {
 //        try {
             Thread.sleep(2000);
-            byte[] pdfContent = downloadFileToByteArray.execute(newIpe.getLink());
 //            String summarizedPdfContent = gptClient.summarizeText(rawPdfContent, 300);
-            String summarizedPdfContent = "summarizedWithoutGPT";
+            final String summarizedPdfContent = "summarizedWithoutGPT";
 
             RelevantFact relevantFact = new RelevantFact();
             relevantFact.setIpeId(newIpe.getId());

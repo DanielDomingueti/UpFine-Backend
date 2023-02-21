@@ -1,7 +1,7 @@
 package com.domingueti.upfine.configs;
 
-import com.domingueti.upfine.components.StockData.implementations.GetStockDataImpl;
-import com.domingueti.upfine.components.StockData.interfaces.GetStockData;
+import com.domingueti.upfine.modules.Config.services.GetConfigByNameService;
+import lombok.AllArgsConstructor;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -25,20 +25,21 @@ import static java.security.KeyStore.getInstance;
 import static org.apache.http.ssl.SSLContexts.custom;
 
 @Configuration
+@AllArgsConstructor
 public class WebConfiguration {
 
-    @Bean
-    public GetStockData getStockData() {
-        return new GetStockDataImpl();
-    }
+    private GetConfigByNameService getConfigByNameService;
 
     @Bean
     public RestTemplate restTemplate() {
+        final String SSL_CERTIFICATE_PATH = getConfigByNameService.execute("SSL-CERTIFICATE-PATH").getValue();
+        final String SSL_CERTIFICATE_TYPE = getConfigByNameService.execute("SSL-CERTIFICATE-TYPE").getValue();
+
         try {
             KeyStore keyStore = getInstance(KeyStore.getDefaultType());
             keyStore.load(null, null);
 
-            FileInputStream fis = new FileInputStream("src/main/resources/ssl-certificate/certificate.pem");
+            FileInputStream fis = new FileInputStream(SSL_CERTIFICATE_PATH);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
             StringBuilder builder = new StringBuilder();
             String line = reader.readLine();
@@ -50,7 +51,7 @@ public class WebConfiguration {
             }
 
             byte[] certBytes = Base64.getDecoder().decode(builder.toString());
-            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+            CertificateFactory certificateFactory = CertificateFactory.getInstance(SSL_CERTIFICATE_TYPE);
             Certificate certificate = certificateFactory.generateCertificate(new ByteArrayInputStream(certBytes));
             keyStore.setCertificateEntry("cert", certificate);
 
