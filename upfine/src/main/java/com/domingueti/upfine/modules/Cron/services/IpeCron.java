@@ -6,9 +6,9 @@ import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
 import com.domingueti.upfine.modules.RelevantFact.models.RelevantFact;
 import com.domingueti.upfine.modules.RelevantFact.repositories.RelevantFactRepository;
-import com.domingueti.upfine.utils.beans.DownloadFile;
+import com.domingueti.upfine.utils.beans.DownloadFileToByteArray;
 import com.domingueti.upfine.utils.statics.ConvertToRawCnpj;
-import com.domingueti.upfine.utils.beans.ExtractCsvIPE;
+import com.domingueti.upfine.utils.statics.ExtractCsvIPE;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ import java.util.Optional;
 public class IpeCron {
     //verifies for new IPEs from the CSV and save the final summarized text
 
-    private DownloadFile downloadFile;
+    private DownloadFileToByteArray downloadFileToByteArray;
 
 //    private GptClient gptClient;
 
@@ -100,7 +100,7 @@ public class IpeCron {
     private void createRelevantFact(Ipe newIpe) throws InterruptedException {
 //        try {
             Thread.sleep(2000);
-            byte[] pdfContent = downloadFile.execute(newIpe.getLink());
+            byte[] pdfContent = downloadFileToByteArray.execute(newIpe.getLink());
 //            String summarizedPdfContent = gptClient.summarizeText(rawPdfContent, 300);
             String summarizedPdfContent = "summarizedWithoutGPT";
 

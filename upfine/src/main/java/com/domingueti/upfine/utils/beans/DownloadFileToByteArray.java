@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class DownloadFile {
+public class DownloadFileToByteArray {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    public DownloadFile(RestTemplateBuilder builder) {
+    public DownloadFileToByteArray(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
     }
 

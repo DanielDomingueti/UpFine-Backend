@@ -2,7 +2,7 @@ package com.domingueti.upfine.modules.test;
 
 import com.domingueti.upfine.components.StockData.interfaces.GetStockData;
 import com.domingueti.upfine.modules.Cron.services.IpeCron;
-import com.domingueti.upfine.utils.beans.DownloadFile;
+import com.domingueti.upfine.utils.beans.DownloadFileToByteArray;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @AllArgsConstructor
 public class TestController {
 
-    private DownloadFile downloadFile;
+    private DownloadFileToByteArray downloadFileToByteArray;
 
     private RestTemplate restTemplate;
 
