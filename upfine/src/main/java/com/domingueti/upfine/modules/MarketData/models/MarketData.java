@@ -10,6 +10,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity(name = "tb_market_data")
 @ToString
@@ -34,8 +35,6 @@ public class MarketData {
 
     private @Getter @Setter Double divYield;
 
-    private @Getter @Setter Double revenueGrowth;
-
     private @Getter @Setter Double lpa;
 
     private @Getter @Setter Double vpa;
@@ -43,6 +42,8 @@ public class MarketData {
     private @Getter @Setter Double netMargin;
 
     private @Getter @Setter Double roe;
+
+    private @Getter @Setter LocalDate lastReferenceDate;
 
     @CreationTimestamp
     private @Getter Timestamp createdAt;
