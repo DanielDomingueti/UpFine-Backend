@@ -1,6 +1,5 @@
 package com.domingueti.upfine.modules.Cron.services;
 
-import com.domingueti.upfine.components.GPT3.interfaces.GptClient;
 import com.domingueti.upfine.modules.Corporation.models.Corporation;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
@@ -9,16 +8,14 @@ import com.domingueti.upfine.modules.RelevantFact.models.RelevantFact;
 import com.domingueti.upfine.modules.RelevantFact.repositories.RelevantFactRepository;
 import com.domingueti.upfine.utils.beans.DownloadFile;
 import com.domingueti.upfine.utils.statics.ConvertToRawCnpj;
-import com.domingueti.upfine.utils.statics.ExtractCsvIPE;
+import com.domingueti.upfine.utils.beans.ExtractCsvIPE;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +46,8 @@ public class IpeCron {
             for (String[] ipeArray : listOfDownloadedIpeArray) {
 
                 LocalDate ipeReferenceDate = LocalDate.parse(ipeArray[8], dateTimeFormatter);
-                if (latestIpeOptional.isPresent() && ipeReferenceDate.isBefore(latestIpeOptional.get().getReferenceDate())) {
+//                if (latestIpeOptional.isPresent() && ipeReferenceDate.isBefore(latestIpeOptional.get().getReferenceDate())) {
+                if (!ipeReferenceDate.isAfter(LocalDate.of(2023, 02, 15))) {
                     continue;
                 }
 
@@ -59,9 +57,7 @@ public class IpeCron {
 
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

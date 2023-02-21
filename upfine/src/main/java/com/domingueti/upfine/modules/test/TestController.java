@@ -1,25 +1,14 @@
 package com.domingueti.upfine.modules.test;
 
-import com.domingueti.upfine.components.StockData.dtos.StockIndicatorsDTO;
 import com.domingueti.upfine.components.StockData.interfaces.GetStockData;
 import com.domingueti.upfine.modules.Cron.services.IpeCron;
 import com.domingueti.upfine.utils.beans.DownloadFile;
-import com.domingueti.upfine.utils.statics.ExtractCsvIPE;
 import lombok.AllArgsConstructor;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/test")

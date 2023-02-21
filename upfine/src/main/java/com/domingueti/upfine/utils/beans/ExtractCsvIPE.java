@@ -1,8 +1,12 @@
-package com.domingueti.upfine.utils.statics;
+package com.domingueti.upfine.utils.beans;
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.SocketException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,12 +17,16 @@ import java.util.zip.ZipInputStream;
 
 import static java.nio.file.Files.deleteIfExists;
 
+@AllArgsConstructor
+@Component
 public class ExtractCsvIPE {
+
+    private DownloadFile downloadFile;
 
     public static List<String[]> execute() throws IOException {
 
         String zipFileUrl = "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/IPE/DADOS/ipe_cia_aberta_2023.zip";
-        String zipFilePath = "ipe_cia_aberta_2023.zip";
+        String zipFilePath = "src/main/resources/zip/ipe_cia_aberta_2023.zip";
         downloadFile(zipFileUrl, zipFilePath);
 
         // Extract the csv file from the zip file
@@ -33,7 +41,7 @@ public class ExtractCsvIPE {
         String cvsSplitBy = ";";
         List<String[]> rows = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(csvFile), "ISO-8859-1"))) {
             while ((line = br.readLine()) != null) {
                 String[] row = line.split(cvsSplitBy);
                 if (row[4].equals("Fato Relevante")) {
@@ -63,7 +71,7 @@ public class ExtractCsvIPE {
 
     private static void unzipFile(String zipFilePath, Path csvFilePath) throws IOException {
         byte[] buffer = new byte[1024];
-        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath))) {
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath), StandardCharsets.UTF_8)) {
             ZipEntry zipEntry = zis.getNextEntry();
             while (zipEntry != null) {
                 if (!zipEntry.isDirectory() && zipEntry.getName().endsWith(".csv")) {
@@ -79,5 +87,7 @@ public class ExtractCsvIPE {
             zis.closeEntry();
         }
     }
+
+
 
 }
