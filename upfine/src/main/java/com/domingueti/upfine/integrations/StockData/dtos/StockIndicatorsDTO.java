@@ -1,4 +1,4 @@
-package com.domingueti.upfine.components.StockData.dtos;
+package com.domingueti.upfine.integrations.StockData.dtos;
 
 import lombok.*;
 
