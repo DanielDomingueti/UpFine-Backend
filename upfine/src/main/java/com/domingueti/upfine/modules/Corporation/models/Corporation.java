@@ -1,7 +1,6 @@
 package com.domingueti.upfine.modules.Corporation.models;
 
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
-import com.domingueti.upfine.modules.MarketData.models.MarketData;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -36,10 +35,6 @@ public class Corporation {
     private @Getter Timestamp updatedAt;
 
     private @Getter @Setter Timestamp deletedAt;
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "corporation", cascade = CascadeType.ALL)
-    private @Getter List<MarketData> marketDatas = new ArrayList<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "corporation", cascade = CascadeType.ALL)
