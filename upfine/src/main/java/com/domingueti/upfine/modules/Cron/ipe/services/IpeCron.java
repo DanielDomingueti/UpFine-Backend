@@ -1,4 +1,4 @@
-package com.domingueti.upfine.modules.Cron.services;
+package com.domingueti.upfine.modules.Cron.ipe.services;
 
 import com.domingueti.upfine.modules.Corporation.models.Corporation;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
@@ -45,7 +45,7 @@ public class IpeCron {
 
                 final LocalDate ipeReferenceDate = LocalDate.parse(ipeArray[8], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 //                if (latestIpeOptional.isPresent() && ipeReferenceDate.isBefore(latestIpeOptional.get().getReferenceDate())) {
-                if (!ipeReferenceDate.isAfter(LocalDate.of(2023, 02, 15))) {
+                if (!ipeReferenceDate.isAfter(LocalDate.of(2023, 02, 16))) {
                     continue;
                 }
 
