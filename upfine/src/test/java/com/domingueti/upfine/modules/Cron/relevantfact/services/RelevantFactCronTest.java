@@ -55,10 +55,10 @@ public class RelevantFactCronTest {
         //should get a list of RelevantFactIpeDAO when there's a valid IPE in the current day
         when(relevantFactRepository.findNameAndCnpjAndRelevantFactAndSubjectAndDateOfToday()).thenReturn(List.of(relevantFactIpeDAO));
 
+        //create a single final template with all relevant facts
+
         //should find all valid emails in the database
         when(emailRepository.findAll()).thenReturn(List.of(email));
-
-        //create a single final template with all relevant facts
 
         //for each email, should call SendEmail component to send the final template.
     }
