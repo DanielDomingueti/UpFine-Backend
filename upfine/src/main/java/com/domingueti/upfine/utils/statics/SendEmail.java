@@ -1,56 +1,50 @@
 package com.domingueti.upfine.utils.statics;
 
-import com.sun.mail.smtp.SMTPTransport;
-import lombok.AllArgsConstructor;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
-@AllArgsConstructor
 public class SendEmail {
 
-    private String accessToken;
+   public void execute() throws MessagingException {
+       Properties properties = new Properties();
+       properties.put("mail.smtp.host", "smtp.gmail.com");
+       properties.put("mail.smtp.port", "465");
+       properties.put("mail.smtp.auth", "true");
+       properties.put("mail.smtp.starttls.enable", "true");
+       properties.put("mail.smtp.starttls.required", "true");
+       properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+       properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-    public void sendEmail(String toEmail, String subject, String body) throws MessagingException {
-        // Create properties object for the email session
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
-        props.put("mail.smtp.auth.login.disable", "true");
-        props.put("mail.smtp.auth.plain.disable", "true");
+       Authenticator auth =  new Authenticator() {
+           @Override
+           protected PasswordAuthentication getPasswordAuthentication() {
+               return new PasswordAuthentication("danielbaudocla@gmail.com", System.getenv("GMAIL_APP_PASSWORD"));
+           }
+       };
 
-        // Create a Session object with the properties and authentication information
-        Session session = Session.getInstance(props, null);
-        SMTPTransport transport = (SMTPTransport)session.getTransport("smtp");
+       Session session = Session.getInstance(properties, auth);
 
-        // Connect to the SMTP server using OAuth2 authentication
-        transport.connect("smtp.gmail.com", 587, null, null);
-        transport.issueCommand("AUTH XOAUTH2 " + getOAuth2Token(), 235);
+       Message message = new MimeMessage(session);
+       message.setFrom(new InternetAddress("danielbaudocla@gmail.com"));
+       message.setRecipients(
+               Message.RecipientType.TO, InternetAddress.parse("danieldomingueti123@gmail.com"));
+       message.setSubject("Mail Subject");
 
-        // Create a MimeMessage object
-        MimeMessage message = new MimeMessage(session);
+       String msg = "This is my first email using JavaMailer";
 
-        // Set the From, To, Subject, and Content fields of the email
-        message.setFrom(new InternetAddress("danielbaudocla@gmail.com"));
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-        message.setSubject(subject);
-        message.setText(body);
+       MimeBodyPart mimeBodyPart = new MimeBodyPart();
+       mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
 
-        // Send the email
-        transport.sendMessage(message, message.getAllRecipients());
-        transport.close();
-    }
+       Multipart multipart = new MimeMultipart();
+       multipart.addBodyPart(mimeBodyPart);
 
-    private String getOAuth2Token() {
-        return "user=" + "sender@gmail.com" + "\1auth=Bearer " + accessToken + "\1\1";
-    }
+       message.setContent(multipart);
+
+       Transport.send(message);
+   }
 
 }

@@ -17,12 +17,12 @@ public class RelevantFactCron {
 
     public void execute() {
         List<RelevantFactIpeDAO> relevantFactIpeDAOs = relevantFactRepository.findNameAndCnpjAndRelevantFactAndSubjectAndDateOfToday();
-        SendEmail sendEmail = new SendEmail("smtp.gmail.com", "587", "danielbaudocla@gmail.com", "Daniel17");
+        SendEmail sendEmail = new SendEmail();
 
 
         try {
 
-            sendEmail.execute("danieldomingueti@hotmail.com.com", "Test Email", "Hello, this is a test email!");
+            sendEmail.execute();
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
