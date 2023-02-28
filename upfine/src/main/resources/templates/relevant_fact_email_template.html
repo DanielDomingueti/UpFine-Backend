@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #333;
+        background-color: #f5f5f5;
+      }
+      .fact {
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .fact__name, .fact__cnpj {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .fact__summarized-text {
+        margin-top: 0;
+      }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div th:each="fact : ${dtos}" class="fact">
+        <div class="fact__name" th:text="${fact.name}"></div>
+        <div class="fact__cnpj" th:text="${fact.cnpj}"></div>
+        <h2 class="fact__subject" th:text="${fact.subject}"></h2>
+        <p class="fact__summarized-text" th:text="${fact.summarizedText}"></p>
+    </div>
+</div>
+</body>
+</html>

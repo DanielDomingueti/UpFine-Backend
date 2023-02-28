@@ -1,6 +1,6 @@
 package com.domingueti.upfine.modules.RelevantFact.repositories;
 
-import com.domingueti.upfine.modules.Cron.relevantfact.daos.RelevantFactIpeDAO;
+import com.domingueti.upfine.modules.RelevantFact.daos.RelevantFactIpeDAO;
 import com.domingueti.upfine.modules.RelevantFact.models.RelevantFact;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

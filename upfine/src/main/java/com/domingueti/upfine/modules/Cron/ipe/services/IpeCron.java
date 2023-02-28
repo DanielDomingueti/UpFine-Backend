@@ -14,9 +14,11 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+
+import static java.time.LocalDate.parse;
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 @Component
 @AllArgsConstructor
@@ -43,9 +45,9 @@ public class IpeCron {
 
             for (String[] ipeArray : csvLinesIpe) {
 
-                final LocalDate ipeReferenceDate = LocalDate.parse(ipeArray[8], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                final LocalDate ipeReferenceDate = parse(ipeArray[8], ofPattern("yyyy-MM-dd"));
 //                if (latestIpeOptional.isPresent() && ipeReferenceDate.isBefore(latestIpeOptional.get().getReferenceDate())) {
-                if (!ipeReferenceDate.isAfter(LocalDate.of(2023, 02, 16))) {
+                if (!ipeReferenceDate.isAfter(LocalDate.of(2023, 02, 22))) {
                     continue;
                 }
 

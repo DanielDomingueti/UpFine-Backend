@@ -1,6 +1,6 @@
-package com.domingueti.upfine.modules.Cron.relevantfact.services;
+package com.domingueti.upfine.modules.Cron.relevantfact;
 
-import com.domingueti.upfine.modules.Cron.relevantfact.daos.RelevantFactIpeDAO;
+import com.domingueti.upfine.modules.RelevantFact.daos.RelevantFactIpeDAO;
 import com.domingueti.upfine.modules.Email.models.Email;
 import com.domingueti.upfine.modules.Email.repositories.EmailRepository;
 import com.domingueti.upfine.modules.RelevantFact.repositories.RelevantFactRepository;

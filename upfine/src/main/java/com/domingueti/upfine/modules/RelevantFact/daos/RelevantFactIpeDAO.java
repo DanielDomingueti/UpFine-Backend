@@ -1,4 +1,4 @@
-package com.domingueti.upfine.modules.Cron.relevantfact.daos;
+package com.domingueti.upfine.modules.RelevantFact.daos;
 
 import java.time.LocalDate;
 
