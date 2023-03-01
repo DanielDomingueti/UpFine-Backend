@@ -18,13 +18,13 @@ public class RelevantFactIpeHtmlDTO {
 
     private String subject;
 
-    private String summarizedText;
+    private String summarized;
 
     public RelevantFactIpeHtmlDTO(RelevantFactIpeDAO dao) {
         name = dao.getName();
         cnpj = dao.getCnpj();
         subject = dao.getSubject();
-        summarizedText = dao.getSummarizedText();
+        summarized = dao.getSummarized();
     }
 
 }

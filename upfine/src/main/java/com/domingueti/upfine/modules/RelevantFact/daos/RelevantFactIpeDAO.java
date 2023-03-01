@@ -12,6 +12,6 @@ public interface RelevantFactIpeDAO {
 
     LocalDate getReferenceDate();
 
-    String getSummarizedText();
+    String getSummarized();
 
 }

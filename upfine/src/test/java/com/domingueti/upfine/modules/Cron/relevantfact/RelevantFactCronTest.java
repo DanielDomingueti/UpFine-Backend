@@ -43,7 +43,7 @@ public class RelevantFactCronTest {
         when(relevantFactIpeDAO.getName()).thenReturn("name");
         when(relevantFactIpeDAO.getCnpj()).thenReturn("cnpj");
         when(relevantFactIpeDAO.getSubject()).thenReturn("subject");
-        when(relevantFactIpeDAO.getSummarizedText()).thenReturn("summarizedText");
+//        when(relevantFactIpeDAO.getSummarizedText()).thenReturn("summarizedText");
 
         email = createEmail();
     }

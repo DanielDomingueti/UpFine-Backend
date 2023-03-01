@@ -108,7 +108,7 @@ public class IpeCron {
 
             RelevantFact relevantFact = new RelevantFact();
             relevantFact.setIpeId(newIpe.getId());
-            relevantFact.setSummarizedText(summarizedPdfContent);
+            relevantFact.setSummarized(summarizedPdfContent);
             relevantFactRepository.save(relevantFact);
     }
 
