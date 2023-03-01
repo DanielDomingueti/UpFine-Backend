@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.Thread.sleep;
 import static java.time.LocalDate.parse;
 import static java.time.format.DateTimeFormatter.ofPattern;
 
@@ -69,6 +70,8 @@ public class IpeCron {
         final String ipeLink = ipeArray[12];
         final Long ipeCorporationId = defineCorporationId(ipeCorporationCnpj, ipeCorporationName);
 
+        deleteRepeatedIpeAndRelevantFact(ipeCorporationId, ipeSubject, ipeLink, ipeReferenceDate);
+
         Ipe ipe = new Ipe();
         ipe.setSubject(ipeSubject);
         ipe.setLink(ipeLink);
@@ -99,8 +102,7 @@ public class IpeCron {
     }
 
     private void createAndSaveRelevantFact(Ipe newIpe) throws InterruptedException {
-//        try {
-            Thread.sleep(2000);
+            sleep(2000);
 //            String summarizedPdfContent = gptClient.summarizeText(rawPdfContent, 300);
             final String summarizedPdfContent = "summarizedWithoutGPT";
 
@@ -108,10 +110,14 @@ public class IpeCron {
             relevantFact.setIpeId(newIpe.getId());
             relevantFact.setSummarizedText(summarizedPdfContent);
             relevantFactRepository.save(relevantFact);
-            
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+    }
+
+    private void deleteRepeatedIpeAndRelevantFact(Long ipeCorporationId, String ipeSubject, String ipeLink, LocalDate ipeReferenceDate) {
+        Optional<Ipe> existingIpe = ipeRepository.findByCorporationIdAndSubjectAndLinkAndReferenceDateAndDeletedAtIsNull(ipeCorporationId, ipeSubject, ipeLink, ipeReferenceDate);
+        if (existingIpe.isPresent()) {
+            ipeRepository.delete(existingIpe.get());
+            relevantFactRepository.delete(existingIpe.get().getRelevantFact());
+        }
     }
 
 }

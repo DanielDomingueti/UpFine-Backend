@@ -86,3 +86,5 @@ INSERT INTO "tb_config"(name, value) VALUES ('SSL-CERTIFICATE-PATH', 'src/main/r
 INSERT INTO "tb_config"(name, value) VALUES ('SSL-CERTIFICATE-TYPE', 'X.509');
 
 INSERT INTO "tb_config"(name, value) VALUES ('REQUEST-MEDIA-TYPE', 'application/json');
+
+INSERT INTO "tb_config"(name, value) VALUES ('EMAIL-SENDER', 'danielbaudocla@gmail.com');

@@ -10,4 +10,5 @@ public interface IpeRepository extends JpaRepository<Ipe, Long> {
 
     Optional<Ipe> findTop1ByOrderByReferenceDateDesc();
 
+    Optional<Ipe> findByCorporationIdAndSubjectAndLinkAndReferenceDateAndDeletedAtIsNull(Long ipeCorporationId, String ipeSubject, String ipeLink, LocalDate ipeReferenceDate);
 }
