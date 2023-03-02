@@ -48,7 +48,7 @@ public class IpeCron {
 
                 final LocalDate ipeReferenceDate = parse(ipeArray[8], ofPattern("yyyy-MM-dd"));
 //                if (latestIpeOptional.isPresent() && ipeReferenceDate.isBefore(latestIpeOptional.get().getReferenceDate())) {
-                if (!ipeReferenceDate.isAfter(LocalDate.of(2023, 02, 22))) {
+                if (!ipeReferenceDate.isAfter(LocalDate.of(2023, 03, 01))) {
                     continue;
                 }
 

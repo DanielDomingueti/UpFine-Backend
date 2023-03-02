@@ -24,7 +24,7 @@ public class SendEmail {
        message.setSubject(subject);
 
        MimeBodyPart mimeBodyPart = new MimeBodyPart();
-       mimeBodyPart.setContent(text, "text/html");
+       mimeBodyPart.setContent(text, "text/html; charset=UTF-8");
 
        Multipart multipart = new MimeMultipart();
        multipart.addBodyPart(mimeBodyPart);
