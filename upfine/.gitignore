@@ -4,6 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+!**/src/main/resources/db.migration/populate_test_values.sql
+
 ### STS ###
 .apt_generated
 .classpath
