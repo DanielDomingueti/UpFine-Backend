@@ -1,6 +1,8 @@
-package com.domingueti.upfine.utils.statics;
+package com.domingueti.upfine.utils.components;
 
-import lombok.NoArgsConstructor;
+import com.domingueti.upfine.modules.Config.services.GetConfigByNameService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -9,17 +11,21 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
+import static java.time.LocalDate.now;
 import static javax.mail.Message.RecipientType.TO;
 import static javax.mail.Transport.send;
 import static javax.mail.internet.InternetAddress.parse;
 
-@NoArgsConstructor
+@AllArgsConstructor
+@Component
 public class SendEmail {
 
-    public void execute(String from, String to, String subject, String text) throws MessagingException {
-       final Session session = Session.getInstance(createSmptProperties(), createAuthenticationWithEmailAndAppPassword());
-       Message message = createMessage(session, from, to, subject, text);
-       send(message);
+    final private GetConfigByNameService getConfigByNameService;
+
+    public void execute(String to, String text) throws MessagingException {
+        final Session session = Session.getInstance(createSmptProperties(), createAuthenticationWithEmailAndAppPassword());
+        Message message = createMessage(session, to, text);
+        send(message);
    }
 
     private Properties createSmptProperties() {
@@ -43,10 +49,14 @@ public class SendEmail {
         };
     }
 
-    private Message createMessage(Session session, String from, String to, String subject, String text) {
+    private Message createMessage(Session session, String to, String text) {
+        final String sendFrom = getConfigByNameService.execute("EMAIL-SENDER").getValue();
+        final String subject = "Fato relevante: " + now();
+
         Message message = new MimeMessage(session);
+
         try {
-            message.setFrom(new InternetAddress(from));
+            message.setFrom(new InternetAddress(sendFrom));
             message.setRecipients(TO, parse(to));
             message.setSubject(subject);
             message.setContent(createMultipart(text));

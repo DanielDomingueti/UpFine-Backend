@@ -28,13 +28,13 @@ public class IpeCron {
 
 //    private GptClient gptClient;
 
-    private ExtractCsvLines extractCsvLines;
+    final private ExtractCsvLines extractCsvLines;
 
-    private IpeRepository ipeRepository;
+    final private IpeRepository ipeRepository;
 
-    private CorporationRepository corporationRepository;
+    final private CorporationRepository corporationRepository;
 
-    private RelevantFactRepository relevantFactRepository;
+    final private RelevantFactRepository relevantFactRepository;
 
     @Transactional
     public void execute() {
@@ -42,9 +42,9 @@ public class IpeCron {
         try {
 //            final Optional<Ipe> latestIpeOptional = ipeRepository.findTop1ByOrderByReferenceDateDesc();
 
-            final List<String[]> csvLinesIpe = extractCsvLines.execute();
+            final List<String[]> extractedCsvLines = extractCsvLines.execute();
 
-            for (String[] ipeArray : csvLinesIpe) {
+            for (String[] ipeArray : extractedCsvLines) {
 
                 final LocalDate ipeReferenceDate = parse(ipeArray[8], ofPattern("yyyy-MM-dd"));
 //                if (latestIpeOptional.isPresent() && ipeReferenceDate.isBefore(latestIpeOptional.get().getReferenceDate())) {

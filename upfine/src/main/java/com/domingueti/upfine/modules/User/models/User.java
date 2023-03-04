@@ -29,6 +29,8 @@ public class User {
 
     private @Getter @Setter String email;
 
+    private @Getter @Setter boolean active;
+
     private @Getter @Setter LocalDate referenceDate;
 
     @CreationTimestamp
