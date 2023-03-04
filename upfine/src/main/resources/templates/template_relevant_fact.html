@@ -60,7 +60,7 @@
 <body>
 <div class="container">
     <div class="header">My Email Template</div>
-    <div th:each="fact : ${daos}" class="fact">
+    <div th:each="fact : ${dtos}" class="fact">
         <div style="display:flex; justify-content: space-between; width:100%;">
             <span class="fact__name" th:text="${fact.name}"></span>
             <span class="fact__cnpj" th:text="${fact.cnpj}"></span>
