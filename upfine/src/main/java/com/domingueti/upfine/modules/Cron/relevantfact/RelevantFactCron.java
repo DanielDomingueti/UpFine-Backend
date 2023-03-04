@@ -28,6 +28,7 @@ public class RelevantFactCron {
     public void execute() {
         final String RELEVANT_FACT_EMAIL_TEMPLATE = "relevant_fact_email_template";
         final List<RelevantFactIpeDAO> relevantFactIpeDAOs = relevantFactRepository.findNameAndCnpjAndRelevantFactAndSubjectAndDateOfToday();
+        //Use ConvertCnpj rawToFormatted here after refactoring and applying SPR
 
         final SendEmail sendEmail = new SendEmail();
         final String sendFrom = getConfigByNameService.execute("EMAIL-SENDER").getValue();

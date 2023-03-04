@@ -1,6 +1,6 @@
 package com.domingueti.upfine.modules.test;
 
-import com.domingueti.upfine.modules.Cron.ipe.services.IpeCron;
+import com.domingueti.upfine.modules.Cron.ipe.IpeCron;
 import com.domingueti.upfine.modules.Cron.relevantfact.RelevantFactCron;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

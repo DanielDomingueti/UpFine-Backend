@@ -1,4 +1,4 @@
-package com.domingueti.upfine.modules.Email.models;
+package com.domingueti.upfine.modules.User.models;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,17 +13,19 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-@Entity(name = "tb_email")
+@Entity(name = "tb_user")
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Where(clause = "deleted_at IS NULL")
-@SQLDelete(sql = "update tb_email set deleted_at = current_timestamp where id=?")
-public class Email {
+@SQLDelete(sql = "update tb_user set deleted_at = current_timestamp where id=?")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Getter @Setter Long id;
+
+    private @Getter @Setter String name;
 
     private @Getter @Setter String email;
 
