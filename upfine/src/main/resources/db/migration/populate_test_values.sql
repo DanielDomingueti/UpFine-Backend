@@ -1,0 +1,3 @@
+INSERT INTO "tb_user"(name, email, active, reference_date) VALUES ('Daniel Domingueti', 'danieldomingueti@hotmail.com', TRUE, '2023-03-02');
+INSERT INTO "tb_user"(name, email, active, reference_date) VALUES ('Daniel Domingueti', 'danieldomingueti123@gmail.com', TRUE, '2023-03-02');
+INSERT INTO "tb_user"(name, email, active, reference_date) VALUES ('Daniel Domingueti', 'bemtevikali@hotmail.com', FALSE, '2023-03-02');
