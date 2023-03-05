@@ -1,17 +1,17 @@
 package com.domingueti.upfine.modules.User.models;
 
+import com.domingueti.upfine.modules.Corporation.models.Corporation;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "tb_user")
 @ToString
@@ -40,5 +40,9 @@ public class User {
     private @Getter Timestamp updatedAt;
 
     private @Getter @Setter Timestamp deletedAt;
+
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "users")
+    private @Getter List<Corporation> corporations = new ArrayList<>();
 
 }

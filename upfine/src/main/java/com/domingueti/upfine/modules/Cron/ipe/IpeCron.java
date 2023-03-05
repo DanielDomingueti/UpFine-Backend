@@ -1,11 +1,9 @@
 package com.domingueti.upfine.modules.Cron.ipe;
 
-import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
 import com.domingueti.upfine.modules.Ipe.dtos.IpeDTO;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
 import com.domingueti.upfine.modules.Ipe.services.InsertIpeFromCronService;
-import com.domingueti.upfine.modules.RelevantFact.repositories.RelevantFactRepository;
 import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactFromCronService;
 import com.domingueti.upfine.utils.components.ExtractCsvLines;
 import lombok.AllArgsConstructor;
@@ -33,10 +31,6 @@ public class IpeCron {
     final private InsertRelevantFactFromCronService insertRelevantFactFromCronService;
 
     final private IpeRepository ipeRepository;
-
-    final private CorporationRepository corporationRepository;
-
-    final private RelevantFactRepository relevantFactRepository;
 
     @Transactional
     public void execute() {

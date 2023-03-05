@@ -12,4 +12,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
         "SELECT email FROM tb_user WHERE active = true AND deleted_at IS NULL",
         nativeQuery = true)
     List<String> findEmailByActiveIsTrueAndDeletedAtIsNull();
+
+    @Query(value = "" +
+        "SELECT u.id " +
+        "FROM tb_user u " +
+        "WHERE u.email = :email " +
+        "AND u.active IS TRUE " +
+        "AND u.deleted_at IS NULL",
+        nativeQuery = true)
+    Long findUserIdByEmail(String email);
+
+    boolean existsByEmail(String email);
 }

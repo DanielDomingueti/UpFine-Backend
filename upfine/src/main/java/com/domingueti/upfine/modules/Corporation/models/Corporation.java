@@ -1,6 +1,7 @@
 package com.domingueti.upfine.modules.Corporation.models;
 
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
+import com.domingueti.upfine.modules.User.models.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -39,4 +40,10 @@ public class Corporation {
     @ToString.Exclude
     @OneToMany(mappedBy = "corporation", cascade = CascadeType.ALL)
     private @Getter List<Ipe> ipes = new ArrayList<>();
+
+    @ToString.Exclude
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "tb_pivot_corporation_user", joinColumns = {
+            @JoinColumn(name = "corporation_id")}, inverseJoinColumns = { @JoinColumn(name = "userId")} )
+    private @Getter List<User> users = new ArrayList<>();
 }
