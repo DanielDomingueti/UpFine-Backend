@@ -1,7 +1,7 @@
 package com.domingueti.upfine.utils.components;
 
 import com.domingueti.upfine.modules.Config.services.GetConfigByNameService;
-import com.domingueti.upfine.modules.RelevantFact.RelevantFactIpeDTO;
+import com.domingueti.upfine.modules.RelevantFact.dtos.RelevantFactIpeDTO;
 import com.domingueti.upfine.modules.RelevantFact.daos.RelevantFactIpeDAO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

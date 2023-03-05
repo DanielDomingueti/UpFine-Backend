@@ -1,4 +1,4 @@
-package com.domingueti.upfine.modules.RelevantFact;
+package com.domingueti.upfine.modules.RelevantFact.dtos;
 
 import com.domingueti.upfine.modules.RelevantFact.daos.RelevantFactIpeDAO;
 import lombok.AllArgsConstructor;
