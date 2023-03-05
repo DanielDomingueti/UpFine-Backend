@@ -9,7 +9,7 @@ import java.util.zip.ZipInputStream;
 
 public class UnzipFileLocally {
 
-    public static void execute(String zipFilePath, String csvFilePath) {
+    public static void execute(String zipFilePath, String csvFilePath) throws IOException {
         byte[] buffer = new byte[1024];
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath))) {
             ZipEntry zipEntry = zis.getNextEntry();
@@ -27,6 +27,7 @@ public class UnzipFileLocally {
             zis.closeEntry();
         } catch (IOException e) {
             throw new RuntimeException(e);
+
         }
     }
 

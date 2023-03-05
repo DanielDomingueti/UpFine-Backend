@@ -28,17 +28,21 @@ public class ExtractCsvLines {
         final String ZIP_FILE_PATH_STR = getConfigByNameService.execute("ZIP-FILE-PATH-STR").getValue();
         final String CSV_FILE_PATH_STR = getConfigByNameService.execute("CSV-FILE-PATH-STR").getValue();
         final String CHARSET_PATTERN = getConfigByNameService.execute("CHARSET-PATTERN").getValue();
-        final Path csvFilePath = get(CSV_FILE_PATH_STR);
-
-        final String cvsSplitBy = ";";
-        String line = "";
-        List<String[]> rows = new ArrayList<>();
 
         DownloadFileLocally.execute(ZIP_FILE_URL, ZIP_FILE_PATH_STR);
 
         UnzipFileLocally.execute(ZIP_FILE_PATH_STR, CSV_FILE_PATH_STR);
-
         deleteIfExists(get(ZIP_FILE_PATH_STR));
+
+        return getExtractedCsvLines(CSV_FILE_PATH_STR, CHARSET_PATTERN);
+
+    }
+
+    private List<String[]> getExtractedCsvLines(String CSV_FILE_PATH_STR, String CHARSET_PATTERN) throws IOException {
+        final Path CSV_FILE = get(CSV_FILE_PATH_STR);
+        final String cvsSplitBy = ";";
+        String line = "";
+        List<String[]> rows = new ArrayList<>();
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(CSV_FILE_PATH_STR), CHARSET_PATTERN));
@@ -51,11 +55,10 @@ public class ExtractCsvLines {
             br.close();
 
         } catch (IOException e) {
-            deleteIfExists(csvFilePath);
-            e.printStackTrace();
+            deleteIfExists(CSV_FILE);
+            throw new RuntimeException(e);
         }
-
-        deleteIfExists(csvFilePath);
+        deleteIfExists(CSV_FILE);
         return rows;
     }
 
