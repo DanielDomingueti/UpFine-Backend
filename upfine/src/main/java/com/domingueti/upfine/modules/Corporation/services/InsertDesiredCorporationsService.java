@@ -3,23 +3,23 @@ package com.domingueti.upfine.modules.Corporation.services;
 import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.exceptions.InvalidRequestException;
 import com.domingueti.upfine.modules.Corporation.dtos.CorporationSelectionDTO;
-import com.domingueti.upfine.modules.Corporation.models.PivotCorporationUser;
-import com.domingueti.upfine.modules.Corporation.repositories.PivotCorporationUserRepository;
+import com.domingueti.upfine.modules.Corporation.models.Corporation;
+import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
 import com.domingueti.upfine.modules.Corporation.validators.InsertDesiredCorporationsValidator;
+import com.domingueti.upfine.modules.User.models.User;
 import com.domingueti.upfine.modules.User.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class InsertDesiredCorporationsService {
 
-    final private PivotCorporationUserRepository pivotCorporationUserRepository;
-
     final private UserRepository userRepository;
+
+    final private CorporationRepository corporationRepository;
 
     final private InsertDesiredCorporationsValidator validator;
 
@@ -28,10 +28,10 @@ public class InsertDesiredCorporationsService {
 
         try {
 
-            final Long userId = userRepository.findUserIdByEmail(corporationSelectionDTO.getEmail());
+            final User user = userRepository.findUserByEmail(corporationSelectionDTO.getEmail());
 
-            deletePreviousDesiredCorporations(userId);
-            insertNewDesiredCorporations(userId, corporationSelectionDTO.getCorporationIds());
+            deletePreviousDesiredCorporations(user);
+            insertNewDesiredCorporations(user, corporationSelectionDTO.getCorporationIds());
 
         }
         catch (InvalidRequestException e) {
@@ -43,19 +43,17 @@ public class InsertDesiredCorporationsService {
 
     }
 
-    private void deletePreviousDesiredCorporations(Long userId) {
-        pivotCorporationUserRepository.deleteAllByUserId(userId);
+    private void deletePreviousDesiredCorporations(User user) {
+        user.getCorporations().clear();
+        userRepository.save(user);
     }
 
-    private void insertNewDesiredCorporations(Long userId, List<Long> corporationIds) {
-        List<PivotCorporationUser> pivotCorporationUsers = new ArrayList<>();
+    private void insertNewDesiredCorporations(User user, List<Long> corporationIds) {
         for (Long corporationId : corporationIds) {
-            PivotCorporationUser pivotCorporationUser = new PivotCorporationUser();
-            pivotCorporationUser.setUserId(userId);
-            pivotCorporationUser.setCorporationId(corporationId);
-            pivotCorporationUsers.add(pivotCorporationUser);
+            Corporation corporation = corporationRepository.findById(corporationId).get();
+            user.getCorporations().add(corporation);
         }
-        pivotCorporationUserRepository.saveAll(pivotCorporationUsers);
+        userRepository.save(user);
     }
 
 }
