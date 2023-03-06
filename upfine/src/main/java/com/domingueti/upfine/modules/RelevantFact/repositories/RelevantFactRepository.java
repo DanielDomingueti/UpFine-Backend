@@ -14,7 +14,7 @@ public interface RelevantFactRepository extends JpaRepository<RelevantFact, Long
             "FROM tb_relevant_fact fac " +
             "INNER JOIN tb_ipe ipe ON ipe.id = fac.ipe_id " +
             "INNER JOIN tb_corporation corp ON corp.id = ipe.corporation_id " +
-            "WHERE ipe.reference_date = CURRENT_DATE-7 " +
+            "WHERE ipe.reference_date = CURRENT_DATE-3 " +
             "AND fac.deleted_at IS NULL " +
             "AND ipe.deleted_at IS NULL " +
             "AND corp.deleted_at IS NULL",

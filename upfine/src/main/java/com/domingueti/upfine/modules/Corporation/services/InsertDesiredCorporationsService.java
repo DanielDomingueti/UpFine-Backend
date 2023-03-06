@@ -10,6 +10,7 @@ import com.domingueti.upfine.modules.User.models.User;
 import com.domingueti.upfine.modules.User.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class InsertDesiredCorporationsService {
 
     final private InsertDesiredCorporationsValidator validator;
 
+    @Transactional
     public void execute(CorporationSelectionDTO corporationSelectionDTO) {
         validator.execute(corporationSelectionDTO);
 

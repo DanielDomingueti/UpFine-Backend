@@ -42,7 +42,10 @@ public class User {
     private @Getter @Setter Timestamp deletedAt;
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "tb_pivot_user_corporation", joinColumns = {
+        @JoinColumn(name = "user_id")}, inverseJoinColumns = { @JoinColumn(name = "corporationId")} )
+
     private @Getter List<Corporation> corporations = new ArrayList<>();
 
 }

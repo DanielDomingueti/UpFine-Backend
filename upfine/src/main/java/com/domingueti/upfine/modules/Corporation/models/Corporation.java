@@ -42,8 +42,6 @@ public class Corporation {
     private @Getter List<Ipe> ipes = new ArrayList<>();
 
     @ToString.Exclude
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "tb_pivot_corporation_user", joinColumns = {
-            @JoinColumn(name = "corporation_id")}, inverseJoinColumns = { @JoinColumn(name = "userId")} )
+    @ManyToMany(mappedBy = "corporations")
     private @Getter List<User> users = new ArrayList<>();
 }

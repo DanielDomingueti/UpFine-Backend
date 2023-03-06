@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import static com.domingueti.upfine.utils.statics.ConvertCnpj.rawToFormatted;
+
 @AllArgsConstructor
 public class CorporationDTO {
 
@@ -16,7 +18,7 @@ public class CorporationDTO {
 
     public CorporationDTO(Corporation corporation) {
         this.id = corporation.getId();
-        this.cnpj = corporation.getCnpj();
+        this.cnpj = rawToFormatted(corporation.getCnpj());
         this.name = corporation.getName();
     }
 
