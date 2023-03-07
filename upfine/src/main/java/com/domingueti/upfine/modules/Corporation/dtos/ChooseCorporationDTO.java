@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CorporationSelectionDTO implements Serializable {
+public class ChooseCorporationDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Email(message = "Invalid email")

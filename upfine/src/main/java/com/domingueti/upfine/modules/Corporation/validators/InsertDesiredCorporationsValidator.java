@@ -2,7 +2,7 @@ package com.domingueti.upfine.modules.Corporation.validators;
 
 import com.domingueti.upfine.exceptions.FieldMessage;
 import com.domingueti.upfine.exceptions.InvalidRequestException;
-import com.domingueti.upfine.modules.Corporation.dtos.CorporationSelectionDTO;
+import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
 import com.domingueti.upfine.modules.User.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,18 @@ public class InsertDesiredCorporationsValidator {
     @Autowired
     private UserRepository userRepository;
 
-    public void execute(CorporationSelectionDTO corporationSelectionDTO) {
+    public void execute(ChooseCorporationDTO chooseCorporationDTO) {
         fieldErrors = new HashMap<>();
         validInsert = true;
 
-        for (Long corporationId : corporationSelectionDTO.getCorporationIds()) {
+        for (Long corporationId : chooseCorporationDTO.getCorporationIds()) {
             if(!corporationRepository.existsById(corporationId)) {
                 fieldErrors.put("corporation.id", "Corporation ID does not exist");
                 validInsert = false;
             }
         }
 
-        if (!userRepository.existsByEmail(corporationSelectionDTO.getEmail())) {
+        if (!userRepository.existsByEmail(chooseCorporationDTO.getEmail())) {
             fieldErrors.put("email", "User email does not exist");
             validInsert = false;
         }

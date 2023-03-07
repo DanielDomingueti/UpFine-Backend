@@ -2,7 +2,7 @@ package com.domingueti.upfine.modules.Corporation.services;
 
 import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.exceptions.InvalidRequestException;
-import com.domingueti.upfine.modules.Corporation.dtos.CorporationSelectionDTO;
+import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
 import com.domingueti.upfine.modules.Corporation.models.Corporation;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
 import com.domingueti.upfine.modules.Corporation.validators.InsertDesiredCorporationsValidator;
@@ -25,15 +25,15 @@ public class InsertDesiredCorporationsService {
     final private InsertDesiredCorporationsValidator validator;
 
     @Transactional
-    public void execute(CorporationSelectionDTO corporationSelectionDTO) {
-        validator.execute(corporationSelectionDTO);
+    public void execute(ChooseCorporationDTO chooseCorporationDTO) {
+        validator.execute(chooseCorporationDTO);
 
         try {
 
-            final User user = userRepository.findUserByEmail(corporationSelectionDTO.getEmail());
+            final User user = userRepository.findByEmail(chooseCorporationDTO.getEmail());
 
             deletePreviousDesiredCorporations(user);
-            insertNewDesiredCorporations(user, corporationSelectionDTO.getCorporationIds());
+            insertNewDesiredCorporations(user, chooseCorporationDTO.getCorporationIds());
 
         }
         catch (InvalidRequestException e) {

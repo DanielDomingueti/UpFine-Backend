@@ -9,9 +9,9 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "" +
-        "SELECT email FROM tb_user WHERE active = true AND deleted_at IS NULL",
+        "SELECT * FROM tb_user WHERE active = true AND deleted_at IS NULL",
         nativeQuery = true)
-    List<String> findEmailByActiveIsTrueAndDeletedAtIsNull();
+    List<User> findByActiveIsTrueAndDeletedAtIsNull();
 
     @Query(value = "" +
         "SELECT u.* " +
@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
         "AND u.active IS TRUE " +
         "AND u.deleted_at IS NULL",
         nativeQuery = true)
-    User findUserByEmail(String email);
+    User findByEmail(String email);
 
     boolean existsByEmail(String email);
 }

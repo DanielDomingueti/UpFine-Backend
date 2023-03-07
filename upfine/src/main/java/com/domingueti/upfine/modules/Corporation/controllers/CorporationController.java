@@ -1,7 +1,7 @@
 package com.domingueti.upfine.modules.Corporation.controllers;
 
 import com.domingueti.upfine.modules.Corporation.dtos.CorporationDTO;
-import com.domingueti.upfine.modules.Corporation.dtos.CorporationSelectionDTO;
+import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
 import com.domingueti.upfine.modules.Corporation.services.InsertDesiredCorporationsService;
 import lombok.AllArgsConstructor;
@@ -30,9 +30,9 @@ public class CorporationController {
     }
 
     @PostMapping("/chosen")
-    public ResponseEntity<Void> insertDesiredCorporations(@RequestBody CorporationSelectionDTO corporationSelectionDTO) {
+    public ResponseEntity<Void> insertDesiredCorporations(@RequestBody ChooseCorporationDTO chooseCorporationDTO) {
 
-        insertDesiredCorporationsService.execute(corporationSelectionDTO);
+        insertDesiredCorporationsService.execute(chooseCorporationDTO);
 
         return ResponseEntity.noContent().build();
     }
