@@ -58,9 +58,9 @@ public class IpeCron {
     }
 
     private boolean doesIpeExistsInDatabase(Optional<Ipe> latestIpeOptional, LocalDate ipeReferenceDate) {
-//        return latestIpeOptional.isPresent() && !ipeReferenceDate.isAfter(latestIpeOptional.get().getReferenceDate());
-        LocalDate testDate = LocalDate.of(2023, 3, 1);
-        return !ipeReferenceDate.isAfter(testDate);
+        return latestIpeOptional.isPresent() && !ipeReferenceDate.isAfter(latestIpeOptional.get().getReferenceDate());
+//        LocalDate testDate = LocalDate.of(2023, 3, 1);
+//        return !ipeReferenceDate.isAfter(testDate);
     }
 
 }
