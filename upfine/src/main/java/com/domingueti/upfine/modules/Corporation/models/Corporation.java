@@ -1,6 +1,7 @@
 package com.domingueti.upfine.modules.Corporation.models;
 
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
+import com.domingueti.upfine.modules.User.models.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -39,4 +40,8 @@ public class Corporation {
     @ToString.Exclude
     @OneToMany(mappedBy = "corporation", cascade = CascadeType.ALL)
     private @Getter List<Ipe> ipes = new ArrayList<>();
+
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "corporations")
+    private @Getter List<User> users = new ArrayList<>();
 }

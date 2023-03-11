@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public interface RelevantFactIpeDAO {
 
+    String getUserName();
+
     String getName();
 
     String getCnpj();

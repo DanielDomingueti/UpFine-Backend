@@ -12,6 +12,8 @@ import static com.domingueti.upfine.utils.statics.ConvertCnpj.rawToFormatted;
 @AllArgsConstructor
 public class RelevantFactIpeDTO {
 
+    private @Getter @Setter String userName;
+
     private @Getter @Setter String name;
 
     private @Getter @Setter String cnpj;
@@ -23,6 +25,7 @@ public class RelevantFactIpeDTO {
     private @Getter @Setter LocalDate referenceDate;
 
     public RelevantFactIpeDTO(RelevantFactIpeDAO relevantFactIpeDAO) {
+        this.userName = relevantFactIpeDAO.getUserName();
         this.name = relevantFactIpeDAO.getName();
         this.subject = relevantFactIpeDAO.getSubject();
         this.summarized = relevantFactIpeDAO.getSummarized();
