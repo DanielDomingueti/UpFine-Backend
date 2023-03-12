@@ -40,7 +40,7 @@ public class InsertDesiredCorporationsService {
             throw e;
         }
         catch (Exception e) {
-            throw new BusinessException("Error while inserting chosen corporations for user.");
+            throw new BusinessException("Error while inserting chosen corporations for user: " + e.getMessage());
         }
 
     }
