@@ -35,4 +35,14 @@ public class CustomExceptionResponseHandler {
         return ResponseEntity.status(status).body(exceptionResponse);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> businessInvalidRequest(NotFoundException ex, HttpServletRequest request) {
+        final HttpStatus status = HttpStatus.NOT_FOUND;
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Not found", status.value(),
+                ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(exceptionResponse);
+    }
+
 }

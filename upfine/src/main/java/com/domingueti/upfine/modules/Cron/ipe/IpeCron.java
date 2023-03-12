@@ -1,5 +1,6 @@
 package com.domingueti.upfine.modules.Cron.ipe;
 
+import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.modules.Ipe.dtos.IpeDTO;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
@@ -10,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -52,8 +52,8 @@ public class IpeCron {
 
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new BusinessException("Erro ao rodar CRON de Ipe." + e.getMessage());
         }
     }
 
