@@ -1,7 +1,10 @@
 package com.domingueti.upfine;
 
 import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
+import com.domingueti.upfine.modules.Corporation.dtos.CorporationDTO;
 import com.domingueti.upfine.modules.Corporation.models.Corporation;
+import com.domingueti.upfine.modules.Ipe.models.Ipe;
+import com.domingueti.upfine.modules.RelevantFact.models.RelevantFact;
 import com.domingueti.upfine.modules.User.models.User;
 
 import java.sql.Timestamp;
@@ -27,5 +30,17 @@ public class Factory {
 
     public static ChooseCorporationDTO createChooseCorporationDTO() {
         return new ChooseCorporationDTO("test@gmail.com", Arrays.asList(1L));
+    }
+
+    public static Ipe createIpe() {
+        return new Ipe(1L, 1L, "subject", "link.com", referenceDate, localTimestamp, localTimestamp, null, createCorporation(), createRelevantFact());
+    }
+
+    private static RelevantFact createRelevantFact() {
+        return new RelevantFact(1L, 1L, "summarized text", localTimestamp, localTimestamp, null, null);
+    }
+
+    public static CorporationDTO createCorporationDTO() {
+        return new CorporationDTO(1L, "64843268000178", "new corporation name");
     }
 }

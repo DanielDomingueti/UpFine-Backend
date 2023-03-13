@@ -1,5 +1,6 @@
 package com.domingueti.upfine.modules.Ipe.services;
 
+import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.modules.Corporation.dtos.CorporationDTO;
 import com.domingueti.upfine.modules.Corporation.models.Corporation;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
@@ -26,16 +27,21 @@ public class InsertIpeFromCronService {
 
 
     public IpeDTO execute(String[] ipeArray, LocalDate ipeReferenceDate) {
-        final String ipeCorporationCnpj = ConvertCnpj.formattedToRaw(ipeArray[0]);
-        final String ipeCorporationName = ipeArray[1];
-        final String ipeSubject = ipeArray[7];
-        final String ipeLink = ipeArray[12];
-        final Long ipeCorporationId = defineCorporationId(ipeCorporationCnpj, ipeCorporationName);
+        try {
+            final String ipeCorporationCnpj = ConvertCnpj.formattedToRaw(ipeArray[0]);
+            final String ipeCorporationName = ipeArray[1];
+            final String ipeSubject = ipeArray[7];
+            final String ipeLink = ipeArray[12];
+            final Long ipeCorporationId = defineCorporationId(ipeCorporationCnpj, ipeCorporationName);
 
-        ipeRepository.deleteRepeated(ipeCorporationId, ipeSubject, ipeLink, ipeReferenceDate);
+            ipeRepository.deleteRepeated(ipeCorporationId, ipeSubject, ipeLink, ipeReferenceDate);
 
-        final Ipe newIpe = createAndSaveIpe(ipeSubject, ipeLink, ipeCorporationId, ipeReferenceDate);
-        return new IpeDTO(newIpe);
+            final Ipe newIpe = createAndSaveIpe(ipeSubject, ipeLink, ipeCorporationId, ipeReferenceDate);
+            return new IpeDTO(newIpe);
+        }
+        catch(Exception e) {
+            throw new BusinessException("Error while inserting Ipe from CRON: " + e.getMessage());
+        }
 
     }
 
