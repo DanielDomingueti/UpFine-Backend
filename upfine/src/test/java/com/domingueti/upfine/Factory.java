@@ -3,6 +3,7 @@ package com.domingueti.upfine;
 import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
 import com.domingueti.upfine.modules.Corporation.dtos.CorporationDTO;
 import com.domingueti.upfine.modules.Corporation.models.Corporation;
+import com.domingueti.upfine.modules.Ipe.dtos.IpeDTO;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.RelevantFact.models.RelevantFact;
 import com.domingueti.upfine.modules.User.models.User;
@@ -42,5 +43,9 @@ public class Factory {
 
     public static CorporationDTO createCorporationDTO() {
         return new CorporationDTO(1L, "64843268000178", "new corporation name");
+    }
+
+    public static IpeDTO createIpeDTO() {
+        return new IpeDTO(1L, 1L, "subject", "link.com", referenceDate);
     }
 }
