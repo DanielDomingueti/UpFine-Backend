@@ -1,5 +1,6 @@
 package com.domingueti.upfine.modules.RelevantFact.services;
 
+import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.modules.RelevantFact.models.RelevantFact;
 import com.domingueti.upfine.modules.RelevantFact.repositories.RelevantFactRepository;
 import lombok.AllArgsConstructor;
@@ -27,8 +28,8 @@ public class InsertRelevantFactFromCronService {
             relevantFact.setIpeId(ipeId);
             relevantFact.setSummarized(summarizedPdfContent);
             relevantFactRepository.save(relevantFact);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new BusinessException("Error while inserting RelevantFact from CRON: " + e.getMessage());
         }
 
     }

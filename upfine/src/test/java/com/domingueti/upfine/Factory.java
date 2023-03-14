@@ -36,7 +36,7 @@ public class Factory {
         return new Ipe(1L, 1L, "subject", "link.com", referenceDate, localTimestamp, localTimestamp, null, createCorporation(), createRelevantFact());
     }
 
-    private static RelevantFact createRelevantFact() {
+    public static RelevantFact createRelevantFact() {
         return new RelevantFact(1L, 1L, "summarized text", localTimestamp, localTimestamp, null, null);
     }
 
