@@ -1,5 +1,6 @@
 package com.domingueti.upfine.modules.Corporation.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 public class ChooseCorporationDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

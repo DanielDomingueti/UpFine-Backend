@@ -1,5 +1,6 @@
 package com.domingueti.upfine.utils.components;
 
+import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.modules.Config.services.GetConfigByNameService;
 import com.domingueti.upfine.utils.statics.DownloadFileLocally;
 import com.domingueti.upfine.utils.statics.UnzipFileLocally;
@@ -23,19 +24,23 @@ public class ExtractCsvLines {
 
     private GetConfigByNameService getConfigByNameService;
 
-    public List<String[]> execute() throws IOException {
-        final String ZIP_FILE_URL = getConfigByNameService.execute("ZIP-FILE-URL").getValue();
-        final String ZIP_FILE_PATH_STR = getConfigByNameService.execute("ZIP-FILE-PATH-STR").getValue();
-        final String CSV_FILE_PATH_STR = getConfigByNameService.execute("CSV-FILE-PATH-STR").getValue();
-        final String CHARSET_PATTERN = getConfigByNameService.execute("CHARSET-PATTERN").getValue();
+    public List<String[]> execute() {
+        try {
+            final String ZIP_FILE_URL = getConfigByNameService.execute("ZIP-FILE-URL").getValue();
+            final String ZIP_FILE_PATH_STR = getConfigByNameService.execute("ZIP-FILE-PATH-STR").getValue();
+            final String CSV_FILE_PATH_STR = getConfigByNameService.execute("CSV-FILE-PATH-STR").getValue();
+            final String CHARSET_PATTERN = getConfigByNameService.execute("CHARSET-PATTERN").getValue();
 
-        DownloadFileLocally.execute(ZIP_FILE_URL, ZIP_FILE_PATH_STR);
+            DownloadFileLocally.execute(ZIP_FILE_URL, ZIP_FILE_PATH_STR);
 
-        UnzipFileLocally.execute(ZIP_FILE_PATH_STR, CSV_FILE_PATH_STR);
-        deleteIfExists(get(ZIP_FILE_PATH_STR));
+            UnzipFileLocally.execute(ZIP_FILE_PATH_STR, CSV_FILE_PATH_STR);
+            deleteIfExists(get(ZIP_FILE_PATH_STR));
 
-        return getExtractedCsvLines(CSV_FILE_PATH_STR, CHARSET_PATTERN);
-
+            return getExtractedCsvLines(CSV_FILE_PATH_STR, CHARSET_PATTERN);
+        }
+        catch(IOException e) {
+            throw new BusinessException("Error while extracting CSV lines." + e.getMessage());
+        }
     }
 
     private List<String[]> getExtractedCsvLines(String CSV_FILE_PATH_STR, String CHARSET_PATTERN) throws IOException {
@@ -55,10 +60,11 @@ public class ExtractCsvLines {
             br.close();
 
         } catch (IOException e) {
-            deleteIfExists(CSV_FILE);
             throw new RuntimeException(e);
         }
-        deleteIfExists(CSV_FILE);
+        finally {
+            deleteIfExists(CSV_FILE);
+        }
         return rows;
     }
 

@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface ConfigRepository extends JpaRepository<Config, Long> {
 
-    Optional<ConfigDAO> findByNameAndDeletedAtIsNull(String name);
+    Optional<ConfigDAO> findByName(String name);
 
 }

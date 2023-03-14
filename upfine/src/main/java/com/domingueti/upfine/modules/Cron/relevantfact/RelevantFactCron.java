@@ -1,5 +1,6 @@
 package com.domingueti.upfine.modules.Cron.relevantfact;
 
+import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.modules.RelevantFact.daos.RelevantFactIpeDAO;
 import com.domingueti.upfine.modules.RelevantFact.repositories.RelevantFactRepository;
 import com.domingueti.upfine.modules.User.models.User;
@@ -9,7 +10,6 @@ import com.domingueti.upfine.utils.components.SendEmail;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.mail.MessagingException;
 import java.util.List;
 
 @Component
@@ -31,13 +31,13 @@ public class RelevantFactCron {
         try {
 
             for (User activeUser : activeUsers) {
-                final List<RelevantFactIpeDAO> filteredDailyRelevantFactsByChosenCorporations = filterByUserChosenCorporation(activeUser.getId());
-                final String htmlEmailOutput = generateHtmlEmail.execute(filteredDailyRelevantFactsByChosenCorporations);
+                final List<RelevantFactIpeDAO> filteredDailyRelevantFacts = filterByUserChosenCorporation(activeUser.getId());
+                final String htmlEmailOutput = generateHtmlEmail.execute(filteredDailyRelevantFacts);
                 sendEmail.execute(activeUser.getEmail(), htmlEmailOutput);
             }
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new BusinessException("Erro ao rodar CRON de RelevantFact." + e.getMessage());
         }
 
     }
