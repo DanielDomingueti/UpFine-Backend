@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  database-upfine:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - database_upfine:/var/lib/postgresql/data
+
+volumes:
+  database_upfine:
