@@ -1,16 +1,43 @@
-version: '3.7'
+#version: '3.7'
+#
+#services:
+#  database-upfine:
+#    image: postgres:13.3
+#    restart: always
+#    ports:
+#      - "5433:5432"
+#    environment:
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#    volumes:
+#      - database_upfine:/var/lib/postgresql/data
+#
+#volumes:
+#  database_upfine:
+
+version: "3.8"
 
 services:
-  database-upfine:
-    image: postgres:13.3
-    restart: always
-    ports:
-      - "5433:5432"
+  database_upfine:
+    image: postgres
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+    ports:
+      - "5433:5432"
     volumes:
-      - database_upfine:/var/lib/postgresql/data
+      - database_upfine_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database_upfine:5433/upfine
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database_upfine
 
 volumes:
-  database_upfine:
+  database_upfine_data:
