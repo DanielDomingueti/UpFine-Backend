@@ -33,7 +33,9 @@ public class WebConfiguration {
     @Bean
     public RestTemplate restTemplate() {
         final String SSL_CERTIFICATE_PATH = getConfigByNameService.execute("SSL-CERTIFICATE-PATH").getValue();
+//        final String SSL_CERTIFICATE_PATH = "src/main/resources/ssl-certificate/certificate.pem";
         final String SSL_CERTIFICATE_TYPE = getConfigByNameService.execute("SSL-CERTIFICATE-TYPE").getValue();
+//        final String SSL_CERTIFICATE_TYPE = "X.509";
 
         try {
             KeyStore keyStore = getInstance(KeyStore.getDefaultType());
