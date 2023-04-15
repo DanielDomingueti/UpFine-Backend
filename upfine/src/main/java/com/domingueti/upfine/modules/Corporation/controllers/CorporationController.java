@@ -1,7 +1,7 @@
 package com.domingueti.upfine.modules.Corporation.controllers;
 
-import com.domingueti.upfine.modules.Corporation.dtos.CorporationDTO;
 import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
+import com.domingueti.upfine.modules.Corporation.dtos.CorporationDTO;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
 import com.domingueti.upfine.modules.Corporation.services.InsertDesiredCorporationsService;
 import lombok.AllArgsConstructor;
@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/corporations")
+@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 public class CorporationController {
 
@@ -24,7 +26,10 @@ public class CorporationController {
     @GetMapping
     public ResponseEntity<List<CorporationDTO>> findAll() {
         List<CorporationDTO> corporations = corporationRepository.findAll()
-                .stream().map(CorporationDTO::new).collect(toList());
+                .stream().map(CorporationDTO::new)
+                .sorted(comparing(CorporationDTO::getName))
+                .collect(toList());
+
 
         return ResponseEntity.ok().body(corporations);
     }
