@@ -39,7 +39,6 @@ public class RelevantFactCron {
         } catch (Exception e) {
             throw new BusinessException("Erro ao rodar CRON de RelevantFact." + e.getMessage());
         }
-
     }
 
     private List<RelevantFactIpeDAO> filterByUserChosenCorporation(Long userId) {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static java.time.LocalDate.parse;
@@ -37,8 +38,9 @@ public class IpeCron {
 
         try {
             final Optional<Ipe> latestIpeOptional = ipeRepository.findTop1ByOrderByReferenceDateDesc();
+            final List<String[]> extractedCsvLines = extractCsvLines.execute();
 
-            for (String[] ipeArray : extractCsvLines.execute()) {
+            for (String[] ipeArray : extractedCsvLines) {
 
                 final LocalDate ipeReferenceDate = parse(ipeArray[8], ofPattern("yyyy-MM-dd"));
 
