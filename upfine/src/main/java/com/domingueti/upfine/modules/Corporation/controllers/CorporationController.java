@@ -15,7 +15,6 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/corporations")
-@CrossOrigin(origins = "http://localhost:5173")
 @AllArgsConstructor
 public class CorporationController {
 
@@ -36,6 +35,7 @@ public class CorporationController {
 
     @PostMapping("/chosen")
     public ResponseEntity<Void> insertDesiredCorporations(@RequestBody ChooseCorporationDTO chooseCorporationDTO) {
+            System.out.println(chooseCorporationDTO.toString());
 
         insertDesiredCorporationsService.execute(chooseCorporationDTO);
 
