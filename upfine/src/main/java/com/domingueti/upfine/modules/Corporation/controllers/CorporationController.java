@@ -35,8 +35,6 @@ public class CorporationController {
 
     @PostMapping("/chosen")
     public ResponseEntity<Void> insertDesiredCorporations(@RequestBody ChooseCorporationDTO chooseCorporationDTO) {
-            System.out.println(chooseCorporationDTO.toString());
-
         insertDesiredCorporationsService.execute(chooseCorporationDTO);
 
         return ResponseEntity.noContent().build();

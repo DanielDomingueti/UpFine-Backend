@@ -34,11 +34,6 @@ public class InsertDesiredCorporationsValidator {
             }
         }
 
-        if (!userRepository.existsByEmail(chooseCorporationDTO.getEmail())) {
-            fieldErrors.put("email", "User email does not exist");
-            validInsert = false;
-        }
-
         if (!validInsert) {
             InvalidRequestException exception = new InvalidRequestException("Erro ao validar os dados inseridos");
 
