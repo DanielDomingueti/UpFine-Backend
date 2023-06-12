@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
@@ -34,7 +35,7 @@ public class CorporationController {
     }
 
     @PostMapping("/chosen")
-    public ResponseEntity<Void> insertDesiredCorporations(@RequestBody ChooseCorporationDTO chooseCorporationDTO) {
+    public ResponseEntity<Void> insertDesiredCorporations(@RequestBody @Valid ChooseCorporationDTO chooseCorporationDTO) {
         insertDesiredCorporationsService.execute(chooseCorporationDTO);
 
         return ResponseEntity.noContent().build();

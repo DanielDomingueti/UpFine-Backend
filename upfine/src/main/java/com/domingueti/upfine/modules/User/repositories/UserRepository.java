@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -20,7 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
         "AND u.active IS TRUE " +
         "AND u.deleted_at IS NULL",
         nativeQuery = true)
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    boolean existsByEmail(String email);
 }

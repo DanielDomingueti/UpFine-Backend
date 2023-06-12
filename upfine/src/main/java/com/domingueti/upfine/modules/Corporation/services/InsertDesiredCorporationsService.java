@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.time.LocalDate.now;
 
 @Service
 @AllArgsConstructor
@@ -30,7 +33,18 @@ public class InsertDesiredCorporationsService {
 
         try {
 
-            final User user = userRepository.findByEmail(chooseCorporationDTO.getEmail());
+            User user = new User();
+            final Optional<User> userOptional = userRepository.findByEmail(chooseCorporationDTO.getEmail());
+
+            if (userOptional.isEmpty()) {
+                user.setName("user test");
+                user.setEmail(chooseCorporationDTO.getEmail());
+                user.setActive(true);
+                user.setReferenceDate(now());
+                user = userRepository.save(user);
+            } else {
+                user = userOptional.get();
+            }
 
             deletePreviousDesiredCorporations(user);
             insertNewDesiredCorporations(user, chooseCorporationDTO.getCorporationIds());
