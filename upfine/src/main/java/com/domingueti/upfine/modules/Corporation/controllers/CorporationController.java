@@ -25,7 +25,7 @@ public class CorporationController {
 
     @GetMapping
     public ResponseEntity<List<CorporationDTO>> findAll() {
-        List<CorporationDTO> corporations = corporationRepository.findAll()
+        final List<CorporationDTO> corporations = corporationRepository.findAll()
                 .stream().map(CorporationDTO::new)
                 .sorted(comparing(CorporationDTO::getName))
                 .collect(toList());

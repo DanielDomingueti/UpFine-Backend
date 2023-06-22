@@ -48,7 +48,7 @@ public class IpeCron {
                     continue;
                 }
 
-                IpeDTO ipeDTO = insertIpeFromCronService.execute(ipeArray, ipeReferenceDate);
+                final IpeDTO ipeDTO = insertIpeFromCronService.execute(ipeArray, ipeReferenceDate);
 
                 insertRelevantFactFromCronService.execute(ipeDTO.getId());
 
