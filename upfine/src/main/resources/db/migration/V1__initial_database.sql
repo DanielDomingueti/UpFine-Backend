@@ -99,6 +99,8 @@ INSERT INTO "tb_config"(name, value) VALUES ('ZIP-FILE-PATH-STR', 'src/main/reso
 INSERT INTO "tb_config"(name, value) VALUES ('CSV-FILE-PATH-STR', 'src/main/resources/csv/ipe_cia_aberta_2023.zip');
 INSERT INTO "tb_config"(name, value) VALUES ('CHARSET-PATTERN', 'ISO-8859-1');
 
+INSERT INTO "tb_config"(name, value) VALUES ('PDF-FILE-PATH-STR', 'src/main/resources/pdf/');
+
 INSERT INTO "tb_config"(name, value) VALUES ('SSL-CERTIFICATE-PATH', 'src/main/resources/ssl-certificate/certificate.pem');
 INSERT INTO "tb_config"(name, value) VALUES ('SSL-CERTIFICATE-TYPE', 'X.509');
 
