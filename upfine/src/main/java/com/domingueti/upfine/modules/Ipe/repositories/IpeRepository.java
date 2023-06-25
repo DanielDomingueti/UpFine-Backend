@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface IpeRepository extends JpaRepository<Ipe, Long> {
 
-    Optional<Ipe> findTop1ByOrderByReferenceDateDesc();
+    Optional<Ipe> findTop1ByDeletedAtIsNullOrderByReferenceDateDescIdDesc();
 
     @Modifying
     @Query(value = "" +

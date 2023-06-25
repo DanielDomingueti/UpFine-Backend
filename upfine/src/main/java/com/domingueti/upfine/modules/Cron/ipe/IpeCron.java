@@ -37,14 +37,14 @@ public class IpeCron {
     public void execute() {
 
         try {
-            final Optional<Ipe> latestIpeOptional = ipeRepository.findTop1ByOrderByReferenceDateDesc();
+            final Optional<Ipe> latestIpeOptional = ipeRepository.findTop1ByDeletedAtIsNullOrderByReferenceDateDescIdDesc();
             final List<String[]> extractedCsvLines = extractCsvLines.execute();
 
             for (String[] ipeArray : extractedCsvLines) {
 
                 final LocalDate ipeReferenceDate = parse(ipeArray[8], ofPattern("yyyy-MM-dd"));
 
-                if (doesIpeExistsInDatabase(latestIpeOptional, ipeReferenceDate)) {
+                if (existsByReferenceDate(latestIpeOptional, ipeReferenceDate)) {
                     continue;
                 }
 
@@ -59,7 +59,7 @@ public class IpeCron {
         }
     }
 
-    private boolean doesIpeExistsInDatabase(Optional<Ipe> latestIpeOptional, LocalDate ipeReferenceDate) {
+    private boolean existsByReferenceDate(Optional<Ipe> latestIpeOptional, LocalDate ipeReferenceDate) {
         return latestIpeOptional.isPresent() && !ipeReferenceDate.isAfter(latestIpeOptional.get().getReferenceDate());
 //        LocalDate testDate = LocalDate.of(2023, 3, 1);
 //        return !ipeReferenceDate.isAfter(testDate);

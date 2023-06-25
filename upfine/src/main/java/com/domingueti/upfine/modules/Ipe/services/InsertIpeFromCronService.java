@@ -55,7 +55,7 @@ public class InsertIpeFromCronService {
     }
 
     private Long defineCorporationId(String ipeCorporationCnpj, String ipeCorporationName) {
-        final Optional<Corporation> corporationOptional = corporationRepository.findByCnpjAndName(ipeCorporationCnpj, ipeCorporationName);
+        final Optional<Corporation> corporationOptional = corporationRepository.findByCnpj(ipeCorporationCnpj);
         if (corporationOptional.isPresent()) {
             return corporationOptional.get().getId();
         }

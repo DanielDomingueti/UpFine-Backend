@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface CorporationRepository extends JpaRepository<Corporation, Long> {
 
-    Optional<Corporation> findByCnpjAndName(String cnpj, String name);
+    Optional<Corporation> findByCnpj(String cnpj);
 
 }
