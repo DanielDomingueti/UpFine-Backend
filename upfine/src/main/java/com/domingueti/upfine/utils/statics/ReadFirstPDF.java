@@ -14,14 +14,14 @@ public class ReadFirstPDF {
         try {
             final PDFTextStripper textStripper = new PDFTextStripper();
 
-            final File pdfDirectory = new File(pdfFilePath);
-            final File[] files = pdfDirectory.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
+//            final File pdfDirectory = new File(pdfFilePath);
+//            final File[] files = pdfDirectory.listFiles((dir, name) -> name.toLowerCase().endsWith(".pdf"));
+//
+//            if (files.length == 0 || files == null) {
+//                throw new BusinessException("No PDF was found in: " + pdfFilePath);
+//            }
 
-            if (files.length == 0 || files == null) {
-                throw new BusinessException("No PDF was found in: " + pdfFilePath);
-            }
-
-            final File pdfFile = files[0];
+            final File pdfFile = new File(pdfFilePath);
             PDDocument document = PDDocument.load(pdfFile);
             final String content = textStripper.getText(document);
             document.close();
