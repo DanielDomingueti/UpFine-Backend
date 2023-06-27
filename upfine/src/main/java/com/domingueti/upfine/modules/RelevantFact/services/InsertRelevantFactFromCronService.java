@@ -2,7 +2,6 @@ package com.domingueti.upfine.modules.RelevantFact.services;
 
 import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.exceptions.NotFoundException;
-import com.domingueti.upfine.integrations.GPT3.GptClient;
 import com.domingueti.upfine.modules.Config.services.GetConfigByNameService;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
@@ -22,8 +21,9 @@ import static java.nio.file.Paths.get;
 public class InsertRelevantFactFromCronService {
 
     final private RelevantFactRepository relevantFactRepository;
+
     final private IpeRepository ipeRepository;
-    final private GptClient gptClient;
+
     final private GetConfigByNameService getConfigByNameService;
 
     @Transactional
