@@ -25,10 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class InsertIpeFromCronServiceTest {
+public class InsertIpeCronServiceTest {
 
     @InjectMocks
-    private InsertIpeFromCronService insertIpeFromCronService;
+    private InsertIpeCronService insertIpeCronService;
 
     @Mock
     private CorporationRepository corporationRepository;
@@ -81,7 +81,7 @@ public class InsertIpeFromCronServiceTest {
         when(ipeRepository.save(any())).thenReturn(ipe);
 
         assertDoesNotThrow(() -> {
-            insertIpeFromCronService.execute(ipeArray, ipeReferenceDate);
+            insertIpeCronService.execute(ipeArray, ipeReferenceDate);
         });
 
         verify(corporationRepository, times(1)).findByCnpjAndName(ipeCorporationCnpj, ipeCorporationName);
@@ -101,7 +101,7 @@ public class InsertIpeFromCronServiceTest {
         when(ipeRepository.save(any())).thenReturn(ipe);
 
         assertDoesNotThrow(() -> {
-            insertIpeFromCronService.execute(ipeArray, ipeReferenceDate);
+            insertIpeCronService.execute(ipeArray, ipeReferenceDate);
         });
 
         verify(corporationRepository, times(1)).findByCnpjAndName(invalidIpeCorporationCnpj, invalidIpeCorporationName);
@@ -119,7 +119,7 @@ public class InsertIpeFromCronServiceTest {
         doThrow(BusinessException.class).when(corporationRepository).findByCnpjAndName(ipeCorporationCnpj, ipeCorporationName);
 
         assertThrows(BusinessException.class, () -> {
-            insertIpeFromCronService.execute(ipeArray, ipeReferenceDate);
+            insertIpeCronService.execute(ipeArray, ipeReferenceDate);
         });
 
         verify(corporationRepository, times(1)).findByCnpjAndName(ipeCorporationCnpj, ipeCorporationName);

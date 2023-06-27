@@ -14,7 +14,7 @@ public class RelevantFactIpeDTO {
 
     private @Getter @Setter String userName;
 
-    private @Getter @Setter String name;
+    private @Getter @Setter String corporation;
 
     private @Getter @Setter String cnpj;
 
@@ -26,7 +26,7 @@ public class RelevantFactIpeDTO {
 
     public RelevantFactIpeDTO(RelevantFactIpeDAO relevantFactIpeDAO) {
         this.userName = relevantFactIpeDAO.getUserName();
-        this.name = relevantFactIpeDAO.getName();
+        this.corporation = relevantFactIpeDAO.getCorporation();
         this.subject = relevantFactIpeDAO.getSubject();
         this.summarized = relevantFactIpeDAO.getSummarized();
         this.referenceDate = relevantFactIpeDAO.getReferenceDate();

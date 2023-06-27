@@ -5,8 +5,8 @@ import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.modules.Ipe.dtos.IpeDTO;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
-import com.domingueti.upfine.modules.Ipe.services.InsertIpeFromCronService;
-import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactFromCronService;
+import com.domingueti.upfine.modules.Ipe.services.InsertIpeCronService;
+import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactService;
 import com.domingueti.upfine.utils.components.ExtractCsvLines;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,10 +36,10 @@ public class IpeCronTest {
     private ExtractCsvLines extractCsvLines;
 
     @Mock
-    private InsertIpeFromCronService insertIpeFromCronService;
+    private InsertIpeCronService insertIpeCronService;
 
     @Mock
-    private InsertRelevantFactFromCronService insertRelevantFactFromCronService;
+    private InsertRelevantFactService insertRelevantFactService;
 
     @Mock
     private IpeRepository ipeRepository;
@@ -70,8 +70,8 @@ public class IpeCronTest {
 
         when(ipeRepository.findTop1ByOrderByReferenceDateDesc()).thenReturn(latestIpeOptional);
         when(extractCsvLines.execute()).thenReturn(ipeArrays);
-        when(insertIpeFromCronService.execute(eq(ipeArrays.get(0)), any())).thenReturn(ipeDTO);
-        doNothing().when(insertRelevantFactFromCronService).execute(ipeDTO.getId());
+        when(insertIpeCronService.execute(eq(ipeArrays.get(0)), any())).thenReturn(ipeDTO);
+        doNothing().when(insertRelevantFactService).execute(ipeDTO.getId());
 
         assertDoesNotThrow(() -> {
             ipeCron.execute();
@@ -79,8 +79,8 @@ public class IpeCronTest {
 
         verify(ipeRepository, times(1)).findTop1ByOrderByReferenceDateDesc();
         verify(extractCsvLines, times(1)).execute();
-        verify(insertIpeFromCronService, times(1)).execute(eq(ipeArrays.get(0)), any());
-        verify(insertRelevantFactFromCronService, times(1)).execute(ipeDTO.getId());
+        verify(insertIpeCronService, times(1)).execute(eq(ipeArrays.get(0)), any());
+        verify(insertRelevantFactService, times(1)).execute(ipeDTO.getId());
     }
 
     @Test
@@ -95,8 +95,8 @@ public class IpeCronTest {
 
         verify(ipeRepository, times(1)).findTop1ByOrderByReferenceDateDesc();
         verify(extractCsvLines, times(1)).execute();
-        verify(insertIpeFromCronService, never()).execute(any(), any());
-        verify(insertRelevantFactFromCronService, never()).execute(any());
+        verify(insertIpeCronService, never()).execute(any(), any());
+        verify(insertRelevantFactService, never()).execute(any());
     }
 
 }

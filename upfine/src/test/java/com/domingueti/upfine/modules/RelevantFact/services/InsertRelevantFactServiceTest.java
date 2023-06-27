@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class InsertRelevantFactFromCronServiceTest {
+public class InsertRelevantFactServiceTest {
 
     @InjectMocks
-    private InsertRelevantFactFromCronService insertRelevantFactFromCronService;
+    private InsertRelevantFactService insertRelevantFactService;
 
     @Mock
     private RelevantFactRepository relevantFactRepository;
@@ -40,7 +40,7 @@ public class InsertRelevantFactFromCronServiceTest {
         when(relevantFactRepository.save(any())).thenReturn(relevantFact);
 
         assertDoesNotThrow(() -> {
-            insertRelevantFactFromCronService.execute(ipeId);
+            insertRelevantFactService.execute(ipeId);
         });
 
         verify(relevantFactRepository, times(1)).save(any());
@@ -52,7 +52,7 @@ public class InsertRelevantFactFromCronServiceTest {
         doThrow(BusinessException.class).when(relevantFactRepository).save(any());
 
         assertThrows(BusinessException.class, () -> {
-            insertRelevantFactFromCronService.execute(ipeId);
+            insertRelevantFactService.execute(ipeId);
         });
 
         verify(relevantFactRepository, times(1)).save(any());

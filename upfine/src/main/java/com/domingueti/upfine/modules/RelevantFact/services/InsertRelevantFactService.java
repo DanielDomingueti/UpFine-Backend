@@ -8,7 +8,7 @@ import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
 import com.domingueti.upfine.modules.RelevantFact.models.RelevantFact;
 import com.domingueti.upfine.modules.RelevantFact.repositories.RelevantFactRepository;
 import com.domingueti.upfine.utils.statics.DownloadFileLocally;
-import com.domingueti.upfine.utils.statics.ReadFirstPDF;
+import com.domingueti.upfine.utils.statics.ReadPDF;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import static java.nio.file.Paths.get;
 
 @Service
 @AllArgsConstructor
-public class InsertRelevantFactFromCronService {
+public class InsertRelevantFactService {
 
     final private RelevantFactRepository relevantFactRepository;
 
@@ -36,7 +36,7 @@ public class InsertRelevantFactFromCronService {
             final String PDF_FILE_PATH_STR = getConfigByNameService.execute("PDF-FILE-PATH-STR").getValue();
             DownloadFileLocally.execute(ipe.getLink(), PDF_FILE_PATH_STR);
 
-            final String rawPdfContent = ReadFirstPDF.execute(PDF_FILE_PATH_STR);
+            final String rawPdfContent = ReadPDF.execute(PDF_FILE_PATH_STR);
             final String cleanedPdfContent = removeNullCharacters(rawPdfContent);
 
             deleteIfExists(get(PDF_FILE_PATH_STR));

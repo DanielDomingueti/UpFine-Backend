@@ -6,7 +6,7 @@ import com.domingueti.upfine.exceptions.InvalidRequestException;
 import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
 import com.domingueti.upfine.modules.Corporation.models.Corporation;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
-import com.domingueti.upfine.modules.Corporation.validators.InsertDesiredCorporationsValidator;
+import com.domingueti.upfine.modules.Corporation.validators.InsertUserChosenCorporationsValidator;
 import com.domingueti.upfine.modules.User.models.User;
 import com.domingueti.upfine.modules.User.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-public class InsertDesiredCorporationsServiceTest {
+public class InsertUserChosenCorporationsServiceTest {
 
     @InjectMocks
-    private InsertDesiredCorporationsService insertDesiredCorporationsService;
+    private InsertUserChosenCorporationsService insertDesiredCorporationsService;
 
     @Mock
     private CorporationRepository corporationRepository;
@@ -36,7 +36,7 @@ public class InsertDesiredCorporationsServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private InsertDesiredCorporationsValidator validator;
+    private InsertUserChosenCorporationsValidator validator;
 
     private ChooseCorporationDTO validChooseCorporationDTO;
     private ChooseCorporationDTO invalidChooseCorporationDTO;

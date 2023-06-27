@@ -10,7 +10,7 @@ import java.util.List;
 public interface RelevantFactRepository extends JpaRepository<RelevantFact, Long> {
 
     @Query(value = ""
-            + "SELECT u.name AS user_name, corp.name, corp.cnpj, ipe.subject, ipe.reference_date, fac.summarized " +
+            + "SELECT u.name AS user_name, corp.corporation, corp.cnpj, ipe.subject, ipe.reference_date, fac.summarized " +
             "FROM tb_relevant_fact fac " +
             "INNER JOIN tb_ipe ipe ON ipe.id = fac.ipe_id " +
             "INNER JOIN tb_corporation corp ON corp.id = ipe.corporation_id " +

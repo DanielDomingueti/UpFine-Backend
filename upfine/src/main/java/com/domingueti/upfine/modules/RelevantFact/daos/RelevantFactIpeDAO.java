@@ -6,7 +6,7 @@ public interface RelevantFactIpeDAO {
 
     String getUserName();
 
-    String getName();
+    String getCorporation();
 
     String getCnpj();
 

@@ -16,10 +16,6 @@ public class DownloadFileLocally {
 
     public static void execute(String url, String dest) {
         try {
-//            final URL website = new URL(url);
-//            final InputStream in = website.openStream();
-//            Files.copy(in, Paths.get(dest));
-
             final HttpClient httpClient = HttpClientBuilder.create().build();
             final HttpGet request = new HttpGet(url);
             final HttpResponse response = httpClient.execute(request);

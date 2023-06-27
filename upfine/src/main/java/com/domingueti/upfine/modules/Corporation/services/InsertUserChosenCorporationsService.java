@@ -5,7 +5,7 @@ import com.domingueti.upfine.exceptions.InvalidRequestException;
 import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
 import com.domingueti.upfine.modules.Corporation.models.Corporation;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
-import com.domingueti.upfine.modules.Corporation.validators.InsertDesiredCorporationsValidator;
+import com.domingueti.upfine.modules.Corporation.validators.InsertUserChosenCorporationsValidator;
 import com.domingueti.upfine.modules.User.models.User;
 import com.domingueti.upfine.modules.User.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -19,13 +19,13 @@ import static java.time.LocalDate.now;
 
 @Service
 @AllArgsConstructor
-public class InsertDesiredCorporationsService {
+public class InsertUserChosenCorporationsService {
 
     final private UserRepository userRepository;
 
     final private CorporationRepository corporationRepository;
 
-    final private InsertDesiredCorporationsValidator validator;
+    final private InsertUserChosenCorporationsValidator validator;
 
     @Transactional
     public void execute(ChooseCorporationDTO chooseCorporationDTO) {
@@ -46,8 +46,8 @@ public class InsertDesiredCorporationsService {
                 user = userOptional.get();
             }
 
-            deletePreviousDesiredCorporations(user);
-            insertNewDesiredCorporations(user, chooseCorporationDTO.getCorporationIds());
+            deletePreviousChosenCorporations(user);
+            insertNewChosenCorporations(user, chooseCorporationDTO.getCorporationIds());
 
         }
         catch (InvalidRequestException e) {
@@ -59,12 +59,12 @@ public class InsertDesiredCorporationsService {
 
     }
 
-    private void deletePreviousDesiredCorporations(User user) {
+    private void deletePreviousChosenCorporations(User user) {
         user.getCorporations().clear();
         userRepository.save(user);
     }
 
-    private void insertNewDesiredCorporations(User user, List<Long> corporationIds) {
+    private void insertNewChosenCorporations(User user, List<Long> corporationIds) {
         for (Long corporationId : corporationIds) {
             Corporation corporation = corporationRepository.findById(corporationId).get();
             user.getCorporations().add(corporation);

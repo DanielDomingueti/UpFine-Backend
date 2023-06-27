@@ -3,7 +3,7 @@ package com.domingueti.upfine.modules.Corporation.controllers;
 import com.domingueti.upfine.modules.Corporation.dtos.ChooseCorporationDTO;
 import com.domingueti.upfine.modules.Corporation.dtos.CorporationDTO;
 import com.domingueti.upfine.modules.Corporation.repositories.CorporationRepository;
-import com.domingueti.upfine.modules.Corporation.services.InsertDesiredCorporationsService;
+import com.domingueti.upfine.modules.Corporation.services.InsertUserChosenCorporationsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class CorporationController {
 
     final private CorporationRepository corporationRepository;
 
-    final private InsertDesiredCorporationsService insertDesiredCorporationsService;
+    final private InsertUserChosenCorporationsService insertDesiredCorporationsService;
 
     @GetMapping
     public ResponseEntity<List<CorporationDTO>> findAll() {

@@ -58,7 +58,7 @@ public class GenerateHtmlEmailTest {
         nonExistingConfigName = templateRelevantFactName;
 
         when(validRelevantFactIpeDAO.getUserName()).thenReturn("userName");
-        when(validRelevantFactIpeDAO.getName()).thenReturn("name");
+        when(validRelevantFactIpeDAO.getCorporation()).thenReturn("corporation");
         when(validRelevantFactIpeDAO.getCnpj()).thenReturn("00650062000149");
         when(validRelevantFactIpeDAO.getSubject()).thenReturn("subject");
         when(validRelevantFactIpeDAO.getReferenceDate()).thenReturn(LocalDate.of(2023, 01, 01));

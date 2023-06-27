@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class InsertIpeFromCronService {
+public class InsertIpeCronService {
 
     final private CorporationRepository corporationRepository;
 

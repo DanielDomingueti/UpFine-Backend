@@ -7,7 +7,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import java.io.File;
 import java.io.IOException;
 
-public class ReadFirstPDF {
+public class ReadPDF {
 
     public static String execute(String pdfFilePath) {
 

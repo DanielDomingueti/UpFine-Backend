@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class InsertDesiredCorporationsValidator {
+public class InsertUserChosenCorporationsValidator {
 
     private Map<String, String> fieldErrors;
     private Boolean validInsert;

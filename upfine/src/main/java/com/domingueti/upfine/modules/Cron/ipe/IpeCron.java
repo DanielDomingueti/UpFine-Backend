@@ -4,8 +4,8 @@ import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.modules.Ipe.dtos.IpeDTO;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
-import com.domingueti.upfine.modules.Ipe.services.InsertIpeFromCronService;
-import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactFromCronService;
+import com.domingueti.upfine.modules.Ipe.services.InsertIpeCronService;
+import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactService;
 import com.domingueti.upfine.utils.components.ExtractCsvLines;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -27,9 +27,9 @@ public class IpeCron {
 
     final private ExtractCsvLines extractCsvLines;
 
-    final private InsertIpeFromCronService insertIpeFromCronService;
+    final private InsertIpeCronService insertIpeCronService;
 
-    final private InsertRelevantFactFromCronService insertRelevantFactFromCronService;
+    final private InsertRelevantFactService insertRelevantFactService;
 
     final private IpeRepository ipeRepository;
 
@@ -49,9 +49,9 @@ public class IpeCron {
                     continue;
                 }
 
-                final IpeDTO ipeDTO = insertIpeFromCronService.execute(ipeArray, ipeReferenceDate);
+                final IpeDTO ipeDTO = insertIpeCronService.execute(ipeArray, ipeReferenceDate);
 
-                insertRelevantFactFromCronService.execute(ipeDTO.getId());
+                insertRelevantFactService.execute(ipeDTO.getId());
 
                 i++;
                 System.out.println("Inserted " + i + " out of " + extractedCsvLines.size());
