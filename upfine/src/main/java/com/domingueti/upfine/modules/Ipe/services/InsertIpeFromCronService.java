@@ -12,6 +12,7 @@ import com.domingueti.upfine.utils.statics.ConvertCnpj;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ public class InsertIpeFromCronService {
     final private InsertCorporationService insertCorporationService;
 
 
+    @Transactional
     public IpeDTO execute(String[] ipeArray, LocalDate ipeReferenceDate) {
         try {
             final String ipeCorporationCnpj = ConvertCnpj.formattedToRaw(ipeArray[0]);

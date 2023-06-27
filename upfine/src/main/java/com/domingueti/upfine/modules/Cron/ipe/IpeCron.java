@@ -39,6 +39,7 @@ public class IpeCron {
         try {
             final Optional<Ipe> latestIpeOptional = ipeRepository.findTop1ByDeletedAtIsNullOrderByReferenceDateDescIdDesc();
             final List<String[]> extractedCsvLines = extractCsvLines.execute();
+            int i = 0;
 
             for (String[] ipeArray : extractedCsvLines) {
 
@@ -51,6 +52,9 @@ public class IpeCron {
                 final IpeDTO ipeDTO = insertIpeFromCronService.execute(ipeArray, ipeReferenceDate);
 
                 insertRelevantFactFromCronService.execute(ipeDTO.getId());
+
+                i++;
+                System.out.println("Inserted " + i + " out of " + extractedCsvLines.size());
 
             }
 

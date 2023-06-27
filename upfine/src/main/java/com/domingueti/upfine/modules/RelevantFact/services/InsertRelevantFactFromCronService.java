@@ -22,21 +22,13 @@ import static java.nio.file.Paths.get;
 public class InsertRelevantFactFromCronService {
 
     final private RelevantFactRepository relevantFactRepository;
-
     final private IpeRepository ipeRepository;
-
     final private GptClient gptClient;
-
     final private GetConfigByNameService getConfigByNameService;
-
 
     @Transactional
     public void execute(Long ipeId) {
-
         try {
-//            sleep(2000);
-
-
             final Ipe ipe = ipeRepository.findById(ipeId).orElseThrow(() -> {
                 throw new NotFoundException("IPE not found, ID: " + ipeId);
             });
@@ -44,20 +36,25 @@ public class InsertRelevantFactFromCronService {
             final String PDF_FILE_PATH_STR = getConfigByNameService.execute("PDF-FILE-PATH-STR").getValue();
             DownloadFileLocally.execute(ipe.getLink(), PDF_FILE_PATH_STR);
 
-            //read the pdf content
+            // Read the PDF content
             final String rawPdfContent = ReadFirstPDF.execute(PDF_FILE_PATH_STR);
+
+            // Remove null characters from the string
+            final String cleanedPdfContent = removeNullCharacters(rawPdfContent);
 
             deleteIfExists(get(PDF_FILE_PATH_STR));
 
-//          String summarizedPdfContent = gptClient.summarizeText(rawPdfContent, 300);
-
+            // Set the cleaned content as summarized value
             RelevantFact relevantFact = new RelevantFact();
             relevantFact.setIpeId(ipeId);
-            relevantFact.setSummarized(rawPdfContent);
+            relevantFact.setSummarized(cleanedPdfContent);
             relevantFactRepository.save(relevantFact);
         } catch (Exception e) {
             throw new BusinessException("Error while inserting RelevantFact from CRON: " + e.getMessage());
         }
+    }
 
+    private String removeNullCharacters(String input) {
+        return input.replaceAll("\\x00", "");
     }
 }
