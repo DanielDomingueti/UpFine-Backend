@@ -36,19 +36,16 @@ public class InsertRelevantFactFromCronService {
             final String PDF_FILE_PATH_STR = getConfigByNameService.execute("PDF-FILE-PATH-STR").getValue();
             DownloadFileLocally.execute(ipe.getLink(), PDF_FILE_PATH_STR);
 
-            // Read the PDF content
             final String rawPdfContent = ReadFirstPDF.execute(PDF_FILE_PATH_STR);
-
-            // Remove null characters from the string
             final String cleanedPdfContent = removeNullCharacters(rawPdfContent);
 
             deleteIfExists(get(PDF_FILE_PATH_STR));
 
-            // Set the cleaned content as summarized value
             RelevantFact relevantFact = new RelevantFact();
             relevantFact.setIpeId(ipeId);
             relevantFact.setSummarized(cleanedPdfContent);
             relevantFactRepository.save(relevantFact);
+
         } catch (Exception e) {
             throw new BusinessException("Error while inserting RelevantFact from CRON: " + e.getMessage());
         }
