@@ -42,6 +42,8 @@ public class IpeCron {
             int i = 0;
 
             for (String[] ipeArray : extractedCsvLines) {
+                i++;
+                System.out.println("Line " + i + " out of " + extractedCsvLines.size());
 
                 final LocalDate ipeReferenceDate = parse(ipeArray[8], ofPattern("yyyy-MM-dd"));
 
@@ -53,8 +55,7 @@ public class IpeCron {
 
                 insertRelevantFactService.execute(ipeDTO.getId());
 
-                i++;
-                System.out.println("Inserted " + i + " out of " + extractedCsvLines.size());
+
 
             }
 

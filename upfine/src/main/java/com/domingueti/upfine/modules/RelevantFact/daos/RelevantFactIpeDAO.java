@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public interface RelevantFactIpeDAO {
 
-    String getUserName();
+    String getUser();
 
     String getCorporation();
 
@@ -12,8 +12,10 @@ public interface RelevantFactIpeDAO {
 
     String getSubject();
 
-    LocalDate getReferenceDate();
+    LocalDate getDate();
 
     String getSummarized();
+
+    String getLink();
 
 }

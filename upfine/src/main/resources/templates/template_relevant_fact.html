@@ -3,71 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        line-height: 1.5;
-        color: #333;
-        background-color: #f5f5f5;
-      }
-      .fact {
-        margin-bottom: 20px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-      }
-      .fact_comporation {
-          display: flex;
-          max-width: 100%;
-          /*justify-content: space-between !important;*/
-      }
-      .fact__name {
-        font-weight: bold;
-        margin-bottom: 10px;
-        text-align: left;
-      }
-      .fact__cnpj {
-        font-weight: bold;
-        margin-bottom: 10px;
-        text-align: right;
-      }
-      .fact__subject {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-      }
-      .fact__summarized-text {
-        margin-top: 0;
-        text-align: justify;
-        text-justify: inter-word;
-      }
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f5f5f5;
-        border-radius: 5px;
-      }
-      .header {
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
-      }
+        :root {
+            --white: #ffffff;
+            --gray-100: #e1e1e6;
+            --gray-300: #c4c4cc;
+            --gray-400: #8d8d99;
+            --gray-600: #323248;
+            --gray-700: #29292e;
+            --gray-800: #202024;
+            --gray-900: #121214;
+
+            --green-300: #01a171;
+            --green-500: #00875f;
+
+            --red-500: #F75A68;
+        }
+
+        :focus {
+            outline: transparent;
+            box-shadow: 0 0 0 2px var(--green-500);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--gray-900);
+            color: var(--gray-300);
+            -webkit-font-smoothing: antialiased;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+        }
+
+        .fact {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: var(--white);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            color: var(--gray-900);
+        }
+
+        .fact_comporation {
+            display: flex;
+            max-width: 100%;
+        }
+
+        .fact__name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .fact__cnpj {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .fact__subject {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .fact__summarized-text {
+            margin-top: 0;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .fact__document-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .fact__document-link a {
+            color: var(--green-300);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--gray-900);
+            border-radius: 5px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--gray-300);
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="header">Bom dia, investidor!"</div>
+    <div class="header">Bom dia, <span th:text="${dtos[0].user}"></span>!</div>
     <div th:each="fact : ${dtos}" class="fact">
         <div class="fact_comporation">
-            <span class="fact__name" th:text="${fact.name}"></span>
+            <span class="fact__name" th:text="${fact.corporation}"></span>
             <span class="fact__cnpj" th:text="${fact.cnpj}"></span>
         </div>
-        </br>
+        <br>
         <h2 class="fact__subject" th:text="${fact.subject}"></h2>
         <p class="fact__summarized-text" th:text="${fact.summarized}"></p>
+        <div class="fact__document-link">
+            <a th:href="${fact.link}">Visualizar fato relevante oficial - CVM</a>
+        </div>
     </div>
 </div>
 </body>

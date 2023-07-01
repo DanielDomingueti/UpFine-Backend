@@ -12,7 +12,7 @@ import static com.domingueti.upfine.utils.statics.ConvertCnpj.rawToFormatted;
 @AllArgsConstructor
 public class RelevantFactIpeDTO {
 
-    private @Getter @Setter String userName;
+    private @Getter @Setter String user;
 
     private @Getter @Setter String corporation;
 
@@ -22,14 +22,19 @@ public class RelevantFactIpeDTO {
 
     private @Getter @Setter String summarized;
 
-    private @Getter @Setter LocalDate referenceDate;
+    private @Getter @Setter String link;
+
+    private @Getter @Setter LocalDate date;
 
     public RelevantFactIpeDTO(RelevantFactIpeDAO relevantFactIpeDAO) {
-        this.userName = relevantFactIpeDAO.getUserName();
+        final int endNameIndex = relevantFactIpeDAO.getUser().indexOf(" ");
+
+        this.user = relevantFactIpeDAO.getUser().substring(0, endNameIndex);
         this.corporation = relevantFactIpeDAO.getCorporation();
         this.subject = relevantFactIpeDAO.getSubject();
         this.summarized = relevantFactIpeDAO.getSummarized();
-        this.referenceDate = relevantFactIpeDAO.getReferenceDate();
+        this.link = relevantFactIpeDAO.getLink();
+        this.date = relevantFactIpeDAO.getDate();
         this.cnpj = rawToFormatted(relevantFactIpeDAO.getCnpj());
     }
 
