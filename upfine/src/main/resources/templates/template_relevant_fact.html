@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <style>
         :root {
-            --white: #ffffff;
-            --gray-100: #e1e1e6;
-            --gray-300: #c4c4cc;
-            --gray-400: #8d8d99;
-            --gray-600: #323248;
-            --gray-700: #29292e;
-            --gray-800: #202024;
-            --gray-900: #121214;
+            --white: rgba(255, 255, 255, 1);
+            --gray-100: rgba(225, 225, 230, 1);
+            --gray-300: rgba(196, 196, 204, 1);
+            --gray-400: rgba(141, 141, 153, 1);
+            --gray-600: rgba(50, 50, 72, 1);
+            --gray-700: rgba(41, 41, 46, 1);
+            --gray-800: rgba(32, 32, 36, 1);
+            --gray-900: rgba(18, 18, 20, 1);
 
-            --green-300: #01a171;
-            --green-500: #00875f;
+            --green-300: rgba(1, 161, 113, 1);
+            --green-500: rgba(0, 135, 95, 1);
 
-            --red-500: #F75A68;
+            --red-500: rgba(247, 90, 104, 1);
         }
 
         :focus {
             outline: transparent;
-            box-shadow: 0 0 0 2px var(--green-500);
+            box-shadow: 0 0 0 2px rgba(0, 135, 95, 1);
         }
 
         * {
@@ -31,8 +31,8 @@
         }
 
         body {
-            background: var(--gray-900);
-            color: var(--gray-300);
+            background: rgba(18, 18, 20, 1);
+            color: rgba(196, 196, 204, 1);
             -webkit-font-smoothing: antialiased;
             font-family: 'Roboto', sans-serif;
             font-weight: 400;
@@ -42,10 +42,10 @@
         .fact {
             margin-bottom: 20px;
             padding: 20px;
-            background-color: var(--white);
+            background-color: rgba(255, 255, 255, 1);
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-            color: var(--gray-900);
+            color: rgba(41, 41, 46, 1);
         }
 
         .fact_comporation {
@@ -83,14 +83,14 @@
         }
 
         .fact__document-link a {
-            color: var(--green-300);
+            color: rgba(1, 161, 113, 1);
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: var(--gray-900);
+            background-color: rgba(18, 18, 20, 1);
             border-radius: 5px;
         }
 
@@ -99,7 +99,7 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
-            color: var(--gray-300);
+            color: rgba(196, 196, 204, 1);
         }
     </style>
 </head>
