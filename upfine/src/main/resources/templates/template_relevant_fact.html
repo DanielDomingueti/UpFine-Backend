@@ -47,8 +47,9 @@
             color: rgba(41, 41, 46, 1);
         }
 
-        .fact_comporation {
-            width: 500px;
+        .fact_corporation {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
         }
 
         .fact__name {
@@ -110,9 +111,11 @@
 <div class="container">
     <div class="header">Bom dia, <span th:text="${dtos[0].user}"></span>!</div>
     <div th:each="fact : ${dtos}" class="fact">
-        <div class="fact_comporation">
-            <span class="fact__name" th:text="${fact.corporation}"></span>
-            <span class="fact__cnpj" th:text="${fact.cnpj}"></span>
+        <div class="fact_corporation">
+            <p th:text="${fact.corporation}"></p>
+            <p th:text="${fact.cnpj}"></p>
+<!--            <span class="fact__name" th:text="${fact.corporation}"></span>-->
+<!--            <span class="fact__cnpj" th:text="${fact.cnpj}"></span>-->
         </div>
         <br>
         <h2 class="fact__subject" th:text="${fact.subject}"></h2>
