@@ -13,15 +13,19 @@ import java.util.Optional;
 @Service
 public class GetConfigByNameService {
 
-    private ConfigRepository configRepository;
+    final private ConfigRepository configRepository;
 
     @Transactional(readOnly = true)
     public ConfigDAO execute(String name) {
-        Optional<ConfigDAO> configDaoOptional = configRepository.findByName(name);
-        if (!configDaoOptional.isPresent()) {
-            throw new NotFoundException("Config not found with name: " + name);
+        try {
+            final Optional<ConfigDAO> configDaoOptional = configRepository.findByName(name);
+            if (!configDaoOptional.isPresent()) {
+                throw new NotFoundException("Config not found with name: " + name);
+            }
+            return configDaoOptional.get();
         }
-        return configDaoOptional.get();
+        catch (Exception e) {
+            throw new NotFoundException("Error on fetching config by name. Error: " + e.getMessage());
+        }
     }
-
 }

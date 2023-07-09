@@ -1,7 +1,6 @@
 package com.domingueti.upfine.modules.RelevantFact.services;
 
 import com.domingueti.upfine.exceptions.BusinessException;
-import com.domingueti.upfine.exceptions.NotFoundException;
 import com.domingueti.upfine.modules.Config.services.GetConfigByNameService;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
@@ -12,6 +11,8 @@ import com.domingueti.upfine.utils.statics.ReadPDF;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static java.nio.file.Files.deleteIfExists;
 import static java.nio.file.Paths.get;
@@ -27,24 +28,24 @@ public class InsertRelevantFactCronService {
     final private GetConfigByNameService getConfigByNameService;
 
     @Transactional
-    public void execute(Long ipeId) {
+    public void execute() {
         try {
-            final Ipe ipe = ipeRepository.findById(ipeId).orElseThrow(() -> {
-                throw new NotFoundException("IPE not found, ID: " + ipeId);
-            });
+            final List<Ipe> newIpes = ipeRepository.findByNonExistingRelevantFactAndDeletedAtIsNull();
 
-            final String PDF_FILE_PATH_STR = getConfigByNameService.execute("PDF-FILE-PATH-STR").getValue();
-            DownloadFileLocally.execute(ipe.getLink(), PDF_FILE_PATH_STR);
+            for (Ipe ipe : newIpes) {
+                final String PDF_FILE_PATH_STR = getConfigByNameService.execute("PDF-FILE-PATH-STR").getValue();
+                DownloadFileLocally.execute(ipe.getLink(), PDF_FILE_PATH_STR);
 
-            final String rawPdfContent = ReadPDF.execute(PDF_FILE_PATH_STR);
-            final String cleanedPdfContent = removeNullCharacters(rawPdfContent);
+                final String rawPdfContent = ReadPDF.execute(PDF_FILE_PATH_STR);
+                final String cleanedPdfContent = removeNullCharacters(rawPdfContent);
 
-            deleteIfExists(get(PDF_FILE_PATH_STR));
+                deleteIfExists(get(PDF_FILE_PATH_STR));
 
-            RelevantFact relevantFact = new RelevantFact();
-            relevantFact.setIpeId(ipeId);
-            relevantFact.setSummarized(cleanedPdfContent);
-            relevantFactRepository.save(relevantFact);
+                RelevantFact relevantFact = new RelevantFact();
+                relevantFact.setIpeId(ipe.getId());
+                relevantFact.setSummarized(cleanedPdfContent);
+                relevantFactRepository.save(relevantFact);
+            }
 
         } catch (Exception e) {
             throw new BusinessException("CRON: Error on inserting new relevant fact. Error: " + e.getMessage());

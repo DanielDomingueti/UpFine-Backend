@@ -2,7 +2,7 @@ package com.domingueti.upfine.modules.Cron.controllers;
 
 import com.domingueti.upfine.exceptions.ForbiddenException;
 import com.domingueti.upfine.modules.Cron.ipe.IpeCron;
-import com.domingueti.upfine.modules.Cron.relevantfact.RelevantFactCron;
+import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactCronService;
 import com.domingueti.upfine.modules.RelevantFact.services.SendDailyRelevantFactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ public class CronController {
     private IpeCron ipeCron;
 
     @Autowired
-    private RelevantFactCron relevantFactCron;
+    private InsertRelevantFactCronService insertRelevantFactCronService;
 
     @Autowired
     private SendDailyRelevantFactService sendDailyRelevantFactService;
@@ -48,7 +48,7 @@ public class CronController {
 
         if (!requestToken.equals(CRON_TOKEN)) throw new ForbiddenException("Invalid request token");
 
-        relevantFactCron.execute();
+        insertRelevantFactCronService.execute();
 
         return ResponseEntity.noContent().build();
     }
