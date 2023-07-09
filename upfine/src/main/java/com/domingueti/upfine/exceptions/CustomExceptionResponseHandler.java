@@ -26,7 +26,7 @@ public class CustomExceptionResponseHandler {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public final ResponseEntity<ExceptionResponse> businessInvalidRequest(BusinessException ex, HttpServletRequest request) {
+    public final ResponseEntity<ExceptionResponse> businessInvalidRequestException(BusinessException ex, HttpServletRequest request) {
         final HttpStatus status = HttpStatus.BAD_REQUEST;
 
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Bad Request", status.value(),
@@ -36,10 +36,19 @@ public class CustomExceptionResponseHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public final ResponseEntity<ExceptionResponse> businessInvalidRequest(NotFoundException ex, HttpServletRequest request) {
+    public final ResponseEntity<ExceptionResponse> notFoundException(NotFoundException ex, HttpServletRequest request) {
         final HttpStatus status = HttpStatus.NOT_FOUND;
 
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Not found", status.value(),
+                ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(exceptionResponse);
+    }
+
+    public final ResponseEntity<ExceptionResponse> forbiddenException(ForbiddenException ex, HttpServletRequest request) {
+        final HttpStatus status = HttpStatus.FORBIDDEN;
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Forbidden", status.value(),
                 ex.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(status).body(exceptionResponse);

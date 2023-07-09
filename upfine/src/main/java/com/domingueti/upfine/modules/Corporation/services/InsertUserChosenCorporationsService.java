@@ -37,7 +37,7 @@ public class InsertUserChosenCorporationsService {
             final Optional<User> userOptional = userRepository.findByEmail(chooseCorporationDTO.getEmail());
 
             if (userOptional.isEmpty()) {
-                user.setName("user test");
+                user.setName(chooseCorporationDTO.getName());
                 user.setEmail(chooseCorporationDTO.getEmail());
                 user.setActive(true);
                 user.setReferenceDate(now());

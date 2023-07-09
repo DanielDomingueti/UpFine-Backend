@@ -1,14 +1,12 @@
 package com.domingueti.upfine.modules.Cron.relevantfact;
 
 import com.domingueti.upfine.exceptions.BusinessException;
-import com.domingueti.upfine.modules.RelevantFact.daos.RelevantFactIpeDAO;
-import com.domingueti.upfine.modules.RelevantFact.services.GetRelevantFactsByUserIdService;
-import com.domingueti.upfine.modules.User.models.User;
-import com.domingueti.upfine.modules.User.repositories.UserRepository;
-import com.domingueti.upfine.utils.components.GenerateHtmlEmail;
-import com.domingueti.upfine.utils.components.SendEmail;
+import com.domingueti.upfine.modules.Ipe.models.Ipe;
+import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
+import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactCronService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,30 +14,19 @@ import java.util.List;
 @AllArgsConstructor
 public class RelevantFactCron {
 
-    final private UserRepository userRepository;
+    final private IpeRepository ipeRepository;
 
-    final private GetRelevantFactsByUserIdService getRelevantFactsByUserIdService;
+    final private InsertRelevantFactCronService insertRelevantFactCronService;
 
-    final private GenerateHtmlEmail generateHtmlEmail;
-
-    final private SendEmail sendEmail;
-
-
+    @Transactional
     public void execute() {
-        final List<User> activeUsers = userRepository.findByActiveIsTrueAndDeletedAtIsNull();
 
         try {
-
-            for (User activeUser : activeUsers) {
-                final List<RelevantFactIpeDAO> filteredDailyRelevantFacts = getRelevantFactsByUserIdService.execute(activeUser.getId());
-
-                final String htmlEmailOutput = generateHtmlEmail.execute(filteredDailyRelevantFacts);
-                sendEmail.execute(activeUser.getEmail(), htmlEmailOutput);
-            }
-
-        } catch (Exception e) {
-            throw new BusinessException("Erro ao rodar CRON de RelevantFact." + e.getMessage());
+            final List<Ipe> newIpes = ipeRepository.findByNonExistingRelevantFactAndDeletedAtIsNull();
+            newIpes.forEach(ipe -> insertRelevantFactCronService.execute(ipe.getId()));
+        }
+        catch (Exception e) {
+            throw new BusinessException("CRON: Error on fetching and inserting new relevant facts. Error: " + e.getMessage());
         }
     }
-
 }

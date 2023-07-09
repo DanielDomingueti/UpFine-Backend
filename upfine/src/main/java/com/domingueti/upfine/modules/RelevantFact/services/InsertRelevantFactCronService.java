@@ -18,7 +18,7 @@ import static java.nio.file.Paths.get;
 
 @Service
 @AllArgsConstructor
-public class InsertRelevantFactService {
+public class InsertRelevantFactCronService {
 
     final private RelevantFactRepository relevantFactRepository;
 
@@ -47,7 +47,7 @@ public class InsertRelevantFactService {
             relevantFactRepository.save(relevantFact);
 
         } catch (Exception e) {
-            throw new BusinessException("Error while inserting RelevantFact from CRON: " + e.getMessage());
+            throw new BusinessException("CRON: Error on inserting new relevant fact. Error: " + e.getMessage());
         }
     }
 

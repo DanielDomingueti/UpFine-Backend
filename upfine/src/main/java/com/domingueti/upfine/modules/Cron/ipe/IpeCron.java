@@ -1,11 +1,9 @@
 package com.domingueti.upfine.modules.Cron.ipe;
 
 import com.domingueti.upfine.exceptions.BusinessException;
-import com.domingueti.upfine.modules.Ipe.dtos.IpeDTO;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
 import com.domingueti.upfine.modules.Ipe.services.InsertIpeCronService;
-import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactService;
 import com.domingueti.upfine.utils.components.ExtractCsvLines;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,15 +19,11 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 @Component
 @AllArgsConstructor
 public class IpeCron {
-    //verifies for new IPEs from the CSV and save the final summarized text
-
-//    private GptClient gptClient;
+//  final private GptClient gptClient;
 
     final private ExtractCsvLines extractCsvLines;
 
     final private InsertIpeCronService insertIpeCronService;
-
-    final private InsertRelevantFactService insertRelevantFactService;
 
     final private IpeRepository ipeRepository;
 
@@ -51,16 +45,10 @@ public class IpeCron {
                     continue;
                 }
 
-                final IpeDTO ipeDTO = insertIpeCronService.execute(ipeArray, ipeReferenceDate);
-
-                insertRelevantFactService.execute(ipeDTO.getId());
-
-
-
+                insertIpeCronService.execute(ipeArray, ipeReferenceDate);
             }
-
         } catch (Exception e) {
-            throw new BusinessException("Erro ao rodar CRON de Ipe." + e.getMessage());
+            throw new BusinessException("CRON: Error on inserting IPE. Error: " + e.getMessage());
         }
     }
 
@@ -69,5 +57,4 @@ public class IpeCron {
 //        LocalDate testDate = LocalDate.of(2023, 3, 1);
 //        return !ipeReferenceDate.isAfter(testDate);
     }
-
 }

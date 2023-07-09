@@ -6,6 +6,7 @@ import com.domingueti.upfine.utils.statics.DownloadFileLocally;
 import com.domingueti.upfine.utils.statics.UnzipFileLocally;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -24,6 +25,7 @@ public class ExtractCsvLines {
 
     private GetConfigByNameService getConfigByNameService;
 
+    @Transactional
     public List<String[]> execute() {
         try {
             final String ZIP_FILE_URL = getConfigByNameService.execute("ZIP-FILE-URL").getValue();
