@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface IpeRepository extends JpaRepository<Ipe, Long> {
@@ -23,4 +24,11 @@ public interface IpeRepository extends JpaRepository<Ipe, Long> {
         "AND deleted_at IS NULL",
         nativeQuery = true)
     void deleteRepeated(Long corporationId, String subject, String link, LocalDate referenceDate);
+
+    @Query(value = "" +
+        "SELECT ipe.* FROM tb_ipe ipe " +
+        "WHERE ipe.id NOT IN (SELECT rel.ipe_id FROM tb_relevant_fact rel WHERE rel.deleted_at IS NULL) " +
+        "AND ipe.deleted_at IS NULL",
+    nativeQuery = true)
+    List<Ipe> findByNonExistingRelevantFactAndDeletedAtIsNull();
 }

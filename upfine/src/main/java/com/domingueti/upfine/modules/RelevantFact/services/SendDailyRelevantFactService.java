@@ -1,20 +1,20 @@
-package com.domingueti.upfine.modules.Cron.relevantfact;
+package com.domingueti.upfine.modules.RelevantFact.services;
 
 import com.domingueti.upfine.exceptions.BusinessException;
 import com.domingueti.upfine.modules.RelevantFact.daos.RelevantFactIpeDAO;
-import com.domingueti.upfine.modules.RelevantFact.services.GetRelevantFactsByUserIdService;
 import com.domingueti.upfine.modules.User.models.User;
 import com.domingueti.upfine.modules.User.repositories.UserRepository;
 import com.domingueti.upfine.utils.components.GenerateHtmlEmail;
 import com.domingueti.upfine.utils.components.SendEmail;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Service
 @AllArgsConstructor
-public class RelevantFactCron {
+public class SendDailyRelevantFactService {
 
     final private UserRepository userRepository;
 
@@ -24,22 +24,22 @@ public class RelevantFactCron {
 
     final private SendEmail sendEmail;
 
-
+    @Transactional
     public void execute() {
-        final List<User> activeUsers = userRepository.findByActiveIsTrueAndDeletedAtIsNull();
+
+       final List<User> activeUsers = userRepository.findByActiveIsTrueAndDeletedAtIsNull();
 
         try {
-
             for (User activeUser : activeUsers) {
                 final List<RelevantFactIpeDAO> filteredDailyRelevantFacts = getRelevantFactsByUserIdService.execute(activeUser.getId());
 
-                final String htmlEmailOutput = generateHtmlEmail.execute(filteredDailyRelevantFacts);
-                sendEmail.execute(activeUser.getEmail(), htmlEmailOutput);
+                if (!filteredDailyRelevantFacts.isEmpty()) {
+                    final String htmlEmailOutput = generateHtmlEmail.execute(filteredDailyRelevantFacts);
+                    sendEmail.execute(activeUser.getEmail(), htmlEmailOutput);
+                }
             }
-
         } catch (Exception e) {
-            throw new BusinessException("Erro ao rodar CRON de RelevantFact." + e.getMessage());
+            throw new BusinessException("CRON: Error on sending daily relevant facts. Error: " + e.getMessage());
         }
     }
-
 }

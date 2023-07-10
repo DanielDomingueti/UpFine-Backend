@@ -88,10 +88,7 @@ CREATE UNIQUE INDEX "id_tb_pivot_corporation_user_UNIQUE" ON "tb_pivot_user_corp
 CREATE INDEX "fk_tb_pivot_user_corporation_tb_user_idx" ON "tb_pivot_user_corporation" ("user_id" ASC);
 CREATE INDEX "fk_tb_pivot_user_corporation_tb_corporation_idx" ON "tb_pivot_user_corporation" ("corporation_id" ASC);
 
-
-
 INSERT INTO "tb_config"(name, value) VALUES ('GPT-API-URL', 'https://api.openai.com/v1/engine/ada/completions');
-INSERT INTO "tb_config"(name, value) VALUES ('GPT-API-KEY', 'api-key');
 INSERT INTO "tb_config"(name, value) VALUES ('GPT-API-PROMPT', 'Por favor, resuma em principais pontos o seguinte texto que está em português. O texto será utilizado em um noticiário breve, direcionado para investidores do mercado de ações.');
 INSERT INTO "tb_config"(name, value) VALUES ('GPT-API-KEY', 'Bearer api-key');
 INSERT INTO "tb_config"(name, value) VALUES ('ZIP-FILE-URL', 'https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/IPE/DADOS/ipe_cia_aberta_2023.zip');

@@ -6,7 +6,7 @@ import com.domingueti.upfine.modules.Ipe.dtos.IpeDTO;
 import com.domingueti.upfine.modules.Ipe.models.Ipe;
 import com.domingueti.upfine.modules.Ipe.repositories.IpeRepository;
 import com.domingueti.upfine.modules.Ipe.services.InsertIpeCronService;
-import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactService;
+import com.domingueti.upfine.modules.RelevantFact.services.InsertRelevantFactCronService;
 import com.domingueti.upfine.utils.components.ExtractCsvLines;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +39,7 @@ public class IpeCronTest {
     private InsertIpeCronService insertIpeCronService;
 
     @Mock
-    private InsertRelevantFactService insertRelevantFactService;
+    private InsertRelevantFactCronService insertRelevantFactCronService;
 
     @Mock
     private IpeRepository ipeRepository;
@@ -71,7 +71,7 @@ public class IpeCronTest {
         when(ipeRepository.findTop1ByOrderByReferenceDateDesc()).thenReturn(latestIpeOptional);
         when(extractCsvLines.execute()).thenReturn(ipeArrays);
         when(insertIpeCronService.execute(eq(ipeArrays.get(0)), any())).thenReturn(ipeDTO);
-        doNothing().when(insertRelevantFactService).execute(ipeDTO.getId());
+        doNothing().when(insertRelevantFactCronService).execute(ipeDTO.getId());
 
         assertDoesNotThrow(() -> {
             ipeCron.execute();
@@ -80,7 +80,7 @@ public class IpeCronTest {
         verify(ipeRepository, times(1)).findTop1ByOrderByReferenceDateDesc();
         verify(extractCsvLines, times(1)).execute();
         verify(insertIpeCronService, times(1)).execute(eq(ipeArrays.get(0)), any());
-        verify(insertRelevantFactService, times(1)).execute(ipeDTO.getId());
+        verify(insertRelevantFactCronService, times(1)).execute(ipeDTO.getId());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class IpeCronTest {
         verify(ipeRepository, times(1)).findTop1ByOrderByReferenceDateDesc();
         verify(extractCsvLines, times(1)).execute();
         verify(insertIpeCronService, never()).execute(any(), any());
-        verify(insertRelevantFactService, never()).execute(any());
+        verify(insertRelevantFactCronService, never()).execute(any());
     }
 
 }

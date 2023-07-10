@@ -38,7 +38,9 @@ public class InsertIpeCronService {
 
             ipeRepository.deleteRepeated(ipeCorporationId, ipeSubject, ipeLink, ipeReferenceDate);
 
-            final Ipe newIpe = createAndSaveIpe(ipeSubject, ipeLink, ipeCorporationId, ipeReferenceDate);
+            Ipe newIpe = createIpe(ipeSubject, ipeLink, ipeCorporationId, ipeReferenceDate);
+            newIpe = ipeRepository.save(newIpe);
+
             return new IpeDTO(newIpe);
         }
         catch(Exception e) {
@@ -47,13 +49,13 @@ public class InsertIpeCronService {
 
     }
 
-    private Ipe createAndSaveIpe(String ipeSubject, String ipeLink, Long ipeCorporationId, LocalDate ipeReferenceDate) {
+    private Ipe createIpe(String ipeSubject, String ipeLink, Long ipeCorporationId, LocalDate ipeReferenceDate) {
         Ipe ipe = new Ipe();
         ipe.setSubject(ipeSubject);
         ipe.setLink(ipeLink);
         ipe.setCorporationId(ipeCorporationId);
         ipe.setReferenceDate(ipeReferenceDate);
-        return ipeRepository.save(ipe);
+        return ipe;
     }
 
     private Long defineCorporationId(String ipeCorporationCnpj, String ipeCorporationName) {

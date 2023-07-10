@@ -20,7 +20,9 @@ public class InsertCorporationService {
             Corporation corporation = new Corporation();
             corporation.setCnpj(ipeCorporationCnpj);
             corporation.setName(ipeCorporationName);
-            return new CorporationDTO(corporationRepository.save(corporation));
+            corporation = corporationRepository.save(corporation);
+
+            return new CorporationDTO(corporation);
         }
         catch (Exception e) {
             throw new BusinessException("Error while inserting a corporation: " + e.getMessage());
