@@ -31,6 +31,8 @@ public class InsertRelevantFactCronService {
     public void execute() {
         try {
             final List<Ipe> newIpes = ipeRepository.findByNonExistingRelevantFactAndDeletedAtIsNull();
+            final int size = newIpes.size();
+            int i = 1;
 
             for (Ipe ipe : newIpes) {
                 final String PDF_FILE_PATH_STR = getConfigByNameService.execute("PDF-FILE-PATH-STR").getValue();
@@ -45,6 +47,9 @@ public class InsertRelevantFactCronService {
                 relevantFact.setIpeId(ipe.getId());
                 relevantFact.setSummarized(cleanedPdfContent);
                 relevantFactRepository.save(relevantFact);
+
+                System.out.println("IPE " + i + " out of " + size);
+                i++;
             }
 
         } catch (Exception e) {

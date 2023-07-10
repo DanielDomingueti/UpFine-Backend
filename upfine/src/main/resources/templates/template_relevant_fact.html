@@ -86,14 +86,14 @@
         }
 
         .fact__document-link a {
-            color: rgba(1, 161, 113, 1);
+            color: rgba(41, 41, 46, 1);
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: rgba(18, 18, 20, 1);
+            background-color: rgba(0,81,57);
             border-radius: 5px;
         }
 
@@ -114,14 +114,12 @@
         <div class="fact_corporation">
             <p th:text="${fact.corporation}"></p>
             <p th:text="${fact.cnpj}"></p>
-<!--            <span class="fact__name" th:text="${fact.corporation}"></span>-->
-<!--            <span class="fact__cnpj" th:text="${fact.cnpj}"></span>-->
         </div>
         <br>
         <h2 class="fact__subject" th:text="${fact.subject}"></h2>
         <p class="fact__summarized-text" th:text="${fact.summarized}"></p>
         <div class="fact__document-link">
-            <a th:href="${fact.link}">Visualizar fato relevante oficial - CVM</a>
+            <a th:href="${fact.link}"><b>Visualizar fato relevante oficial - CVM</b></a>
         </div>
     </div>
 </div>
