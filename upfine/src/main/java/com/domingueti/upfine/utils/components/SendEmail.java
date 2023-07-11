@@ -9,6 +9,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
 import java.util.Properties;
 
 import static java.time.LocalDate.now;
@@ -22,9 +23,9 @@ public class SendEmail {
 
     final private GetConfigByNameService getConfigByNameService;
 
-    public void execute(String to, String text) throws MessagingException {
+    public void execute(String to, String text, File attachmentPdf) throws MessagingException {
         final Session session = Session.getInstance(createSmptProperties(), createAuthenticationWithEmailAndAppPassword());
-        Message message = createMessage(session, to, text);
+        Message message = createMessage(session, to, text, attachmentPdf);
         send(message);
    }
 
@@ -49,7 +50,7 @@ public class SendEmail {
         };
     }
 
-    private Message createMessage(Session session, String to, String text) {
+    private Message createMessage(Session session, String to, String text, File attachmentPdf) {
         final String sendFrom = getConfigByNameService.execute("EMAIL-SENDER").getValue();
         final String subject = "Fato relevante: " + now();
 
@@ -59,19 +60,26 @@ public class SendEmail {
             message.setFrom(new InternetAddress(sendFrom));
             message.setRecipients(TO, parse(to));
             message.setSubject(subject);
-            message.setContent(createMultipart(text));
+            message.setContent(createMultipart(text, attachmentPdf));
             return message;
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Multipart createMultipart(String text) {
+    private Multipart createMultipart(String text, File attachmentPdf) {
         try {
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setContent(text, "text/html; charset=UTF-8");
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setContent(text, "text/html; charset=UTF-8");
+
+//            MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+//            DataSource source = new FileDataSource(attachmentPdf);
+//            attachmentBodyPart.setDataHandler(new DataHandler(source));
+//            attachmentBodyPart.setFileName("fato-relevante.pdf");
+
             Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(mimeBodyPart);
+            multipart.addBodyPart(textBodyPart);
+//            multipart.addBodyPart(attachmentBodyPart);
             return multipart;
         } catch (MessagingException e) {
             throw new RuntimeException(e);

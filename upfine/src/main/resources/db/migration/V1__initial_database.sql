@@ -105,5 +105,6 @@ INSERT INTO "tb_config"(name, value) VALUES ('REQUEST-MEDIA-TYPE', 'application/
 
 INSERT INTO "tb_config"(name, value) VALUES ('EMAIL-SENDER', 'danielbaudocla@gmail.com');
 INSERT INTO "tb_config"(name, value) VALUES ('TEMPLATE_RELEVANT_FACT_NAME', 'template_relevant_fact');
+INSERT INTO "tb_config"(name, value) VALUES ('TEMPLATE_NOTIFICATION_EMAIL_NAME', 'template_notification_email');
 INSERT INTO "tb_config"(name, value) VALUES ('TEMPLATE_RELEVANT_FACT_PREFIX_PATH', 'templates/');
 INSERT INTO "tb_config"(name, value) VALUES ('TEMPLATE_RELEVANT_FACT_SUFIX_PATH', '.html');
