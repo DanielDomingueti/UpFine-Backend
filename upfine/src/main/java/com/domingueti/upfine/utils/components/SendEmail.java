@@ -4,12 +4,16 @@ import com.domingueti.upfine.modules.Config.services.GetConfigByNameService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 import static java.time.LocalDate.now;
@@ -52,7 +56,7 @@ public class SendEmail {
 
     private Message createMessage(Session session, String to, String text, File attachmentPdf) {
         final String sendFrom = getConfigByNameService.execute("EMAIL-SENDER").getValue();
-        final String subject = "Fato relevante: " + now();
+        final String subject = "Fato relevante: " + now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         Message message = new MimeMessage(session);
 
@@ -72,14 +76,14 @@ public class SendEmail {
             MimeBodyPart textBodyPart = new MimeBodyPart();
             textBodyPart.setContent(text, "text/html; charset=UTF-8");
 
-//            MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-//            DataSource source = new FileDataSource(attachmentPdf);
-//            attachmentBodyPart.setDataHandler(new DataHandler(source));
-//            attachmentBodyPart.setFileName("fato-relevante.pdf");
+            MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+            DataSource source = new FileDataSource(attachmentPdf);
+            attachmentBodyPart.setDataHandler(new DataHandler(source));
+            attachmentBodyPart.setFileName("fato-relevante-" + now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ".pdf");
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(textBodyPart);
-//            multipart.addBodyPart(attachmentBodyPart);
+            multipart.addBodyPart(attachmentBodyPart);
             return multipart;
         } catch (MessagingException e) {
             throw new RuntimeException(e);

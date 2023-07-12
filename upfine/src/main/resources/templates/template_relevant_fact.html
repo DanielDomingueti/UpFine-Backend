@@ -1,28 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
+    <meta charset="UTF-8">
     <style>
-        :root {
-            --white: rgba(255, 255, 255, 1);
-            --gray-100: rgba(225, 225, 230, 1);
-            --gray-300: rgba(196, 196, 204, 1);
-            --gray-400: rgba(141, 141, 153, 1);
-            --gray-600: rgba(50, 50, 72, 1);
-            --gray-700: rgba(41, 41, 46, 1);
-            --gray-800: rgba(32, 32, 36, 1);
-            --gray-900: rgba(18, 18, 20, 1);
-
-            --green-300: rgba(1, 161, 113, 1);
-            --green-500: rgba(0, 135, 95, 1);
-
-            --red-500: rgba(247, 90, 104, 1);
-        }
-
-        :focus {
-            outline: transparent;
-            box-shadow: 0 0 0 2px rgba(0, 135, 95, 1);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -89,17 +69,17 @@
             color: rgba(196,196,196);
         }
     </style>
-    <meta charset="UTF-8">
+    </meta>
 </head>
 <body>
 <div class="container">
-    <div class="header">Bom dia, <span th:text="${dtos[0].user}"></span>!</div>
+    <div class="header">Upfine</div>
     <div th:each="fact : ${dtos}" class="fact">
         <div class="fact_corporation">
             <p th:text="${fact.corporation}"></p>
             <p th:text="${fact.cnpj}"></p>
         </div>
-        <br>
+        <br></br>
         <h2 class="fact__subject" th:text="${fact.subject}"></h2>
         <p class="fact__summarized-text" th:text="${fact.summarized}"></p>
         <div class="fact__document-link">

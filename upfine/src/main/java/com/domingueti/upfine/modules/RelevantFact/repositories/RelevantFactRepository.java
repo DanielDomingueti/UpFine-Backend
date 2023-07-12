@@ -19,7 +19,7 @@ public interface RelevantFactRepository extends JpaRepository<RelevantFact, Long
             "AND fac.deleted_at IS NULL " +
             "AND ipe.deleted_at IS NULL " +
             "AND corp.deleted_at IS NULL " +
-            "LIMIT 10",
+            "LIMIT 1",
         nativeQuery = true)
     List<RelevantFactIpeDAO> findNameAndCnpjAndRelevantFactAndSubjectAndDateOfToday(Long userId);
 
@@ -35,7 +35,7 @@ public interface RelevantFactRepository extends JpaRepository<RelevantFact, Long
             "AND fac.deleted_at IS NULL " +
             "AND ipe.deleted_at IS NULL " +
             "AND corp.deleted_at IS NULL " +
-            "LIMIT 10",
+            "LIMIT 1",
             nativeQuery = true)
     List<RelevantFactIpeDAO> findNameAndCnpjAndRelevantFactAndSubjectAndDateOfTodayByUserId(Long userId);
 }
